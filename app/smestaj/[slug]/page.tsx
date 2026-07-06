@@ -7,6 +7,8 @@ import ListingMap from "@/components/ListingMap";
 import Gallery from "@/components/Gallery";
 import Sidebar from "@/components/Sidebar";
 import FloatingButtons from "@/components/FloatingButtons";
+import Stars from "@/components/Stars";
+import ReviewForm from "@/components/ReviewForm";
 
 const CAT_TITLES: Record<string,string> = {
   apartmani:"Apartmani", vile:"Vile", sobe:"Sobe", kuce:"Kuće za odmor", bungalovi:"Brvnare i bungalovi",
@@ -36,7 +38,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return { title: data.meta_title || data.title, description: data.meta_description || undefined };
 }
 
-export default async function SmestajSlug({ params }: { params: { slug: string } }) {
+export default async function SmestajSlug({ params, searchParams }: { params: { slug: string }; searchParams: { rev?: string } }) {
   const supabase = createClient();
 
   if (CATS.includes(params.slug)) {
@@ -57,6 +59,10 @@ export default async function SmestajSlug({ params }: { params: { slug: string }
 
   const { data: l } = await supabase.from("listings").select("*").eq("slug", params.slug).eq("status", "approved").single();
   if (!l) notFound();
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: reviews } = await supabase.from("reviews").select("rating,comment,created_at").eq("listing_id", l.id).eq("status", "approved").order("created_at", { ascending: false });
+  const revCount = reviews?.length || 0;
+  const avg = revCount ? (reviews as any[]).reduce((a, r) => a + r.rating, 0) / revCount : 0;
   const { data: relRaw } = await supabase.from("listings").select("id,title,slug,category,excerpt,image_url,price_text").eq("status","approved").eq("category", l.category).neq("slug", params.slug).limit(10);
   const related = (relRaw||[]).sort(()=>Math.random()-0.5).slice(0,3);
   const gallery = galleryImages(params.slug);
@@ -66,6 +72,8 @@ export default async function SmestajSlug({ params }: { params: { slug: string }
       <article className="space-y-6 min-w-0">
         <nav className="text-sm text-slate-500"><Link href="/smestaj" className="hover:text-brand">Smeštaj</Link> / <Link href={`/smestaj/${l.category}`} className="hover:text-brand">{CAT_TITLES[l.category] || l.category}</Link></nav>
         <h1 className="text-3xl font-bold">{l.title}</h1>
+        {revCount > 0 && <Stars value={avg} count={revCount} />}
+        {searchParams.rev === "ok" && <p className="text-green-700 text-sm">Hvala! Vaša ocena čeka odobrenje administratora.</p>}
         {l.image_url && <img src={l.image_url} alt={l.title} className="w-full max-h-[440px] object-cover rounded-xl" />}
 
         {l.phone && (
@@ -104,6 +112,19 @@ export default async function SmestajSlug({ params }: { params: { slug: string }
             </div>
           </section>
         )}
+        <section className="pt-2 border-t border-slate-100">
+          <h2 className="text-xl font-bold mb-3">Ocene i utisci</h2>
+          <div className="space-y-3 mb-4">
+            {(reviews || []).map((r: any, i: number) => (
+              <div key={i} className="bg-white rounded-lg p-3 shadow-sm">
+                <Stars value={r.rating} size="text-sm" />
+                {r.comment && <p className="text-sm text-slate-700 mt-1 whitespace-pre-line">{r.comment}</p>}
+              </div>
+            ))}
+            {revCount === 0 && <p className="text-slate-500 text-sm">Još nema ocena — budite prvi.</p>}
+          </div>
+          {user ? <ReviewForm listingId={l.id} slug={params.slug} /> : <p className="text-sm text-slate-600">Da biste ostavili ocenu, <Link href="/login" className="text-brand underline">prijavite se</Link>.</p>}
+        </section>
       </article>
       <FloatingButtons phone={l.phone || undefined} />
     </div>
