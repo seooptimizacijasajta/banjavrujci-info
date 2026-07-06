@@ -6,10 +6,10 @@ const ITEMS = [
   { src: "/izdvojeni/Banja_Vrujci_Apartmani_Spa_Vrujci.jpg", href: "https://www.banjavrujci.info/smestaj/apartmani/apartman-lux", alt: "Apartmani Spa Banja Vrujci" }
 ];
 
-export default function Izdvojeni() {
+export default function Izdvojeni({ title = "Banja Vrujci Smeštaj - Izdvajamo Za Vas" }: { title?: string }) {
   return (
     <section>
-      <h2 className="text-2xl font-bold mb-4 text-slate-800 text-center">Banja Vrujci Smeštaj - Izdvajamo Za Vas</h2>
+      <h2 className="text-2xl font-bold mb-4 text-slate-800 text-center">{title}</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
         {ITEMS.map((it) => (
           <a key={it.href} href={it.href} target="_blank" rel="noopener noreferrer"

@@ -2,10 +2,12 @@ import Link from "next/link";
 import { Card } from "@/components/Card";
 import Hero from "@/components/Hero";
 import Banners from "@/components/Banners";
+import Izdvojeni from "@/components/Izdvojeni";
+import Izdvojeni2 from "@/components/Izdvojeni2";
 import CategoryRow from "@/components/CategoryRow";
 import { createClient } from "@/lib/supabase/server";
 
-export const dynamic = "force-dynamic"; // bez keširanja -> random pri svakom učitavanju
+export const dynamic = "force-dynamic";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -22,16 +24,16 @@ export default async function Home() {
     .from("listings")
     .select("id,title,slug,category,excerpt,price_text,promo_tier,image_url")
     .eq("status", "approved");
-
   const all = listings || [];
   const featured = shuffle(all.filter((l: any) => l.promo_tier === "premium"));
   const highlighted = shuffle(all.filter((l: any) => l.promo_tier === "featured"));
   const rest = shuffle(all.filter((l: any) => l.promo_tier === "none")).slice(0, 12);
-
   return (
     <div className="space-y-10">
       <Hero count={5} />
       <Banners />
+      <Izdvojeni />
+      <Izdvojeni2 />
       <CategoryRow />
       {featured.length > 0 && <ListSection title="Preporučeni smeštaj" items={featured} />}
       {highlighted.length > 0 && <ListSection title="Izdvojeni smeštaj" items={highlighted} />}
