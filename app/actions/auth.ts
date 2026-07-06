@@ -1,0 +1,34 @@
+"use server";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
+import { passwordProblems } from "@/lib/password";
+
+export async function signUp(formData: FormData) {
+  const email = String(formData.get("email") || "").trim();
+  const password = String(formData.get("password") || "");
+  const fullName = String(formData.get("full_name") || "").trim();
+  const problems = passwordProblems(password);
+  if (problems.length) redirect("/register?err=" + encodeURIComponent("Lozinka mora imati: " + problems.join(", ")));
+  const supabase = createClient();
+  const { error } = await supabase.auth.signUp({
+    email, password,
+    options: { data: { full_name: fullName } }
+  });
+  if (error) redirect("/register?err=" + encodeURIComponent(error.message));
+  redirect("/login?msg=" + encodeURIComponent("Proverite e-mail i potvrdite nalog pre prijave."));
+}
+
+export async function signIn(formData: FormData) {
+  const email = String(formData.get("email") || "").trim();
+  const password = String(formData.get("password") || "");
+  const supabase = createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) redirect("/login?err=" + encodeURIComponent(error.message));
+  redirect("/nalog");
+}
+
+export async function signOut() {
+  const supabase = createClient();
+  await supabase.auth.signOut();
+  redirect("/");
+}
