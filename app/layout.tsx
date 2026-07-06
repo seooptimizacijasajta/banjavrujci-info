@@ -49,6 +49,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     { label: "O Banji", href: "/banja-vrujci", children: kids("banja-vrujci") },
     { label: "Nekretnine", href: "/nekretnine", children: kids("nekretnine") },
     { label: "Galerija", href: "/galerija", children: kids("galerija") },
+    { label: "Video", href: "/video" },
     { label: "Blog", href: "/blog" },
     { label: "Info", href: "/info", children: kids("info") },
     { label: "Kontakt", href: "/kontakt" }
