@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { Card } from "../page";
+import { Card } from "@/components/Card";
 import ListingMap from "@/components/ListingMap";
 import Sidebar from "@/components/Sidebar";
 export const metadata = {

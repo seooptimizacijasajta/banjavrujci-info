@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "./actions/auth";
 import Header from "@/components/Header";
+import Izdvojeni from "@/components/Izdvojeni";
 
 export const metadata: Metadata = {
   title: {
@@ -58,6 +59,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="overflow-x-hidden">
         <Header email={user?.email ?? null} role={role} signOut={signOut} menu={menu} />
         <main className="mx-auto max-w-[1380px] px-4 pb-6">{children}</main>
+        <div className="mx-auto max-w-[1380px] px-4 mt-8"><Izdvojeni /></div>
         <footer className="mt-16 bg-slate-800 text-slate-300 text-sm">
           <div className="mx-auto max-w-[1380px] px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
             <div>

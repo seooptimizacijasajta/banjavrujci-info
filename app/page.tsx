@@ -1,8 +1,7 @@
 import Link from "next/link";
+import { Card } from "@/components/Card";
 import Hero from "@/components/Hero";
 import Banners from "@/components/Banners";
-import Izdvojeni from "@/components/Izdvojeni";
-import Izdvojeni2 from "@/components/Izdvojeni2";
 import CategoryRow from "@/components/CategoryRow";
 import { createClient } from "@/lib/supabase/server";
 
@@ -33,8 +32,6 @@ export default async function Home() {
     <div className="space-y-10">
       <Hero count={5} />
       <Banners />
-      <Izdvojeni />
-      <Izdvojeni2 />
       <CategoryRow />
       {featured.length > 0 && <ListSection title="Preporučeni smeštaj" items={featured} />}
       {highlighted.length > 0 && <ListSection title="Izdvojeni smeštaj" items={highlighted} />}
@@ -53,21 +50,5 @@ function ListSection({ title, items }: { title: string; items: any[] }) {
         {items.map((l) => <Card key={l.id} l={l} />)}
       </div>
     </section>
-  );
-}
-
-export function Card({ l }: { l: any }) {
-  return (
-    <Link href={`/smestaj/${l.slug}`} className="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden">
-      <div className="h-44 bg-slate-200">
-        {l.image_url && <img src={l.image_url} alt={l.title} className="w-full h-full object-cover" loading="lazy" />}
-      </div>
-      <div className="p-4">
-        <div className="text-xs uppercase text-brand font-semibold">{l.category}</div>
-        <h3 className="font-semibold">{l.title}</h3>
-        <p className="text-sm text-slate-600 line-clamp-2">{l.excerpt}</p>
-        {l.price_text && <p className="text-sm font-semibold mt-2">{l.price_text}</p>}
-      </div>
-    </Link>
   );
 }

@@ -2,7 +2,7 @@ import Link from "next/link";
 import galleryManifest from "@/lib/gallery-manifest.json";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
-import { Card } from "../../page";
+import { Card } from "@/components/Card";
 import ListingMap from "@/components/ListingMap";
 import Gallery from "@/components/Gallery";
 import Sidebar from "@/components/Sidebar";
