@@ -20,7 +20,7 @@ export default async function Nalog({ searchParams }: { searchParams: { msg?: st
         {listings?.map((l: any) => (
           <div key={l.id} className="bg-white rounded-lg shadow p-4 flex items-center justify-between">
             <div><div className="font-semibold">{l.title}</div><div className="text-xs uppercase text-slate-500">{l.category}</div></div>
-            <span className={"text-xs px-2 py-1 rounded " + (l.status==="approved"?"bg-green-100 text-green-800":l.status==="pending"?"bg-amber-100 text-amber-800":l.status==="rejected"?"bg-red-100 text-red-800":"bg-slate-100 text-slate-700")}>{STATUS[l.status]}</span>
+            <div className="flex items-center gap-3"><Link href={`/nalog/smestaj/${l.slug}/kalendar`} className="text-sm text-brand hover:underline">Kalendar</Link><span className={"text-xs px-2 py-1 rounded " + (l.status==="approved"?"bg-green-100 text-green-800":l.status==="pending"?"bg-amber-100 text-amber-800":l.status==="rejected"?"bg-red-100 text-red-800":"bg-slate-100 text-slate-700")}>{STATUS[l.status]}</span></div>
           </div>
         ))}
       </div>

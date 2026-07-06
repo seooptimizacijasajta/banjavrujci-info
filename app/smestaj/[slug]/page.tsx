@@ -9,6 +9,7 @@ import Sidebar from "@/components/Sidebar";
 import FloatingButtons from "@/components/FloatingButtons";
 import Stars from "@/components/Stars";
 import ReviewForm from "@/components/ReviewForm";
+import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 
 const CAT_TITLES: Record<string,string> = {
   apartmani:"Apartmani", vile:"Vile", sobe:"Sobe", kuce:"Kuće za odmor", bungalovi:"Brvnare i bungalovi",
@@ -63,6 +64,9 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
   const { data: reviews } = await supabase.from("reviews").select("rating,comment,created_at").eq("listing_id", l.id).eq("status", "approved").order("created_at", { ascending: false });
   const revCount = reviews?.length || 0;
   const avg = revCount ? (reviews as any[]).reduce((a, r) => a + r.rating, 0) / revCount : 0;
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const { data: av } = await supabase.from("listing_availability").select("day").eq("listing_id", l.id).eq("is_available", false).gte("day", todayStr);
+  const bookedDays = (av || []).map((a: any) => a.day);
   const { data: relRaw } = await supabase.from("listings").select("id,title,slug,category,excerpt,image_url,price_text").eq("status","approved").eq("category", l.category).neq("slug", params.slug).limit(10);
   const related = (relRaw||[]).sort(()=>Math.random()-0.5).slice(0,3);
   const gallery = galleryImages(params.slug);
@@ -112,6 +116,11 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
             </div>
           </section>
         )}
+        <section className="pt-2 border-t border-slate-100">
+          <h2 className="text-xl font-bold mb-3">Dostupnost</h2>
+          <AvailabilityCalendar booked={bookedDays} months={2} />
+        </section>
+
         <section className="pt-2 border-t border-slate-100">
           <h2 className="text-xl font-bold mb-3">Ocene i utisci</h2>
           <div className="space-y-3 mb-4">
