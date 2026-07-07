@@ -6,6 +6,7 @@ import Izdvojeni from "@/components/Izdvojeni";
 import Izdvojeni2 from "@/components/Izdvojeni2";
 import CategoryRow from "@/components/CategoryRow";
 import { createClient } from "@/lib/supabase/server";
+import { getLocale, getDict, localeHref } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,8 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 export default async function Home() {
+  const locale = getLocale();
+  const t = getDict(locale);
   const supabase = createClient();
   const { data: listings } = await supabase
     .from("listings")
@@ -35,10 +38,10 @@ export default async function Home() {
       <Izdvojeni />
       <Izdvojeni2 />
       <CategoryRow />
-      {featured.length > 0 && <ListSection title="Preporučeni smeštaj" items={featured} />}
-      {highlighted.length > 0 && <ListSection title="Izdvojeni smeštaj" items={highlighted} />}
-      {rest.length > 0 && <ListSection title="Smeštaj u Banji Vrujci" items={rest} />}
-      <div className="text-center"><Link href="/smestaj" className="inline-block bg-brand text-white rounded px-6 py-3 font-semibold hover:bg-brand-dark">Pogledaj sav smeštaj</Link></div>
+      {featured.length > 0 && <ListSection title={t.common.preporuceniSmestaj} items={featured} />}
+      {highlighted.length > 0 && <ListSection title={t.common.izdvojeniSmestaj} items={highlighted} />}
+      {rest.length > 0 && <ListSection title={t.common.smestajUBanji} items={rest} />}
+      <div className="text-center"><Link href={localeHref("/smestaj", locale)} className="inline-block bg-brand text-white rounded px-6 py-3 font-semibold hover:bg-brand-dark">{t.common.pogledajSav}</Link></div>
     </div>
   );
 }

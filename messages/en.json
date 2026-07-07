@@ -1,0 +1,85 @@
+{
+  "nav": {
+    "pocetna": "Home",
+    "smestaj": "Accommodation",
+    "oBanji": "About the Spa",
+    "nekretnine": "Real Estate",
+    "galerija": "Gallery",
+    "video": "Video",
+    "blog": "Blog",
+    "info": "Info",
+    "kontakt": "Contact"
+  },
+  "cats": {
+    "apartmani": "Apartments",
+    "vile": "Villas",
+    "privatni-smestaj": "Private accommodation",
+    "bungalovi": "Cabins & bungalows",
+    "sobe": "Rooms",
+    "kuce": "Houses",
+    "vikendice": "Cottages",
+    "hoteli": "Hotels"
+  },
+  "auth": {
+    "mojPanel": "My panel",
+    "admin": "Admin",
+    "odjava": "Sign out",
+    "prijava": "Sign in",
+    "registracija": "Register",
+    "dodajSmestaj": "Add accommodation"
+  },
+  "footer": {
+    "kontakt": "Contact",
+    "portal": "Banja Vrujci tourism portal",
+    "smestaj": "Accommodation",
+    "okolina": "Surroundings",
+    "info": "Info",
+    "oBanji": "About the Spa"
+  },
+  "common": {
+    "preporuceniSmestaj": "Recommended accommodation",
+    "izdvojeniSmestaj": "Featured accommodation",
+    "savSmestaj": "All accommodation",
+    "kontakt": "Contact",
+    "pogledajSav": "View all accommodation",
+    "menu": "Menu",
+    "byCategoryEyebrow": "Offers for your next holiday",
+    "byCategoryTitle": "Accommodation in Banja Vrujci by category",
+    "smestajUBanji": "Accommodation in Banja Vrujci",
+    "galerijaTitle": "Banja Vrujci gallery",
+    "galerijaSubtitle": "Photos by theme — pools, nature, surroundings, monasteries and landmarks.",
+    "sadrzajUPripremi": "This content is being prepared and will be filled in during the migration from the old site.",
+    "videoGalerijaTitle": "Banja Vrujci video gallery",
+    "videoGalerijaSubtitle": "Clips from the @banjavrujci channel — pools, accommodation, nature and surroundings. The selection changes on each visit.",
+    "shorts": "Shorts"
+  },
+  "banners": {
+    "p1": "Banja Vrujci tourism portal — all the information about the spa in one place.",
+    "cta1": "About the spa",
+    "p2": "Accommodation offer — villas, apartments, hotels, rooms, private accommodation.",
+    "cta2": "Accommodation in Banja Vrujci",
+    "p3": "Real estate offer — apartments, houses, cottages, plots, flats, commercial space.",
+    "cta3": "All real estate"
+  },
+  "listing": {
+    "kontakt": "Contact:",
+    "video": "Video",
+    "lokacija": "Location on the map",
+    "lokacijaNapomena": "Note: the location shown is approximate.",
+    "povezani": "Related accommodation",
+    "dostupnost": "Availability",
+    "oceneIUtisci": "Ratings & reviews",
+    "nemaOcena": "No ratings yet — be the first.",
+    "ostaviOcenuPre": "To leave a rating, ",
+    "prijaviteSe": "sign in",
+    "ostaviOcenuPost": ".",
+    "hvala": "Thank you! Your rating is awaiting admin approval.",
+    "nemaObjekata": "There are currently no listings in this category.",
+    "uBanji": "in Banja Vrujci",
+    "smestajNaMapi": "Accommodation on the map",
+    "nemaObjavljenih": "There are currently no published listings.",
+    "smestajSubtitle": "A total of {n} listings — apartments, villas, rooms, hotels, cabins and private accommodation.",
+    "galerijaUskoro": "Photos for this gallery are being prepared and will be added soon.",
+    "povezaneStranice": "Related pages"
+  }
+}

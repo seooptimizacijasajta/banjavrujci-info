@@ -3,8 +3,27 @@ import { NextResponse, type NextRequest } from "next/server";
 
 type CookieToSet = { name: string; value: string; options?: CookieOptions };
 
+const LOCALES = ["en", "de"];
+
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next({ request });
+  const { pathname } = request.nextUrl;
+  const seg = pathname.split("/")[1];
+  const locale = LOCALES.includes(seg) ? seg : "sr";
+
+  // Forward the detected locale to server components via a request header.
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-locale", locale);
+
+  let response: NextResponse;
+  if (locale === "sr") {
+    response = NextResponse.next({ request: { headers: requestHeaders } });
+  } else {
+    // Strip the /en or /de prefix and serve the underlying route internally.
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.slice(locale.length + 1) || "/";
+    response = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,

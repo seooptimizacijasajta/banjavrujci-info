@@ -1,0 +1,85 @@
+{
+  "nav": {
+    "pocetna": "Startseite",
+    "smestaj": "Unterkunft",
+    "oBanji": "Über das Thermalbad",
+    "nekretnine": "Immobilien",
+    "galerija": "Galerie",
+    "video": "Video",
+    "blog": "Blog",
+    "info": "Info",
+    "kontakt": "Kontakt"
+  },
+  "cats": {
+    "apartmani": "Apartments",
+    "vile": "Villen",
+    "privatni-smestaj": "Privatunterkunft",
+    "bungalovi": "Blockhäuser & Bungalows",
+    "sobe": "Zimmer",
+    "kuce": "Häuser",
+    "vikendice": "Ferienhäuser",
+    "hoteli": "Hotels"
+  },
+  "auth": {
+    "mojPanel": "Mein Bereich",
+    "admin": "Admin",
+    "odjava": "Abmelden",
+    "prijava": "Anmelden",
+    "registracija": "Registrieren",
+    "dodajSmestaj": "Unterkunft hinzufügen"
+  },
+  "footer": {
+    "kontakt": "Kontakt",
+    "portal": "Tourismusportal Banja Vrujci",
+    "smestaj": "Unterkunft",
+    "okolina": "Umgebung",
+    "info": "Info",
+    "oBanji": "Über das Thermalbad"
+  },
+  "common": {
+    "preporuceniSmestaj": "Empfohlene Unterkünfte",
+    "izdvojeniSmestaj": "Hervorgehobene Unterkünfte",
+    "savSmestaj": "Alle Unterkünfte",
+    "kontakt": "Kontakt",
+    "pogledajSav": "Alle Unterkünfte ansehen",
+    "menu": "Menü",
+    "byCategoryEyebrow": "Angebote für Ihren nächsten Urlaub",
+    "byCategoryTitle": "Unterkünfte in Banja Vrujci nach Kategorie",
+    "smestajUBanji": "Unterkünfte in Banja Vrujci",
+    "galerijaTitle": "Galerie Banja Vrujci",
+    "galerijaSubtitle": "Fotos nach Themen — Pools, Natur, Umgebung, Klöster und Sehenswürdigkeiten.",
+    "sadrzajUPripremi": "Dieser Inhalt wird vorbereitet und bei der Migration von der alten Website ergänzt.",
+    "videoGalerijaTitle": "Videogalerie Banja Vrujci",
+    "videoGalerijaSubtitle": "Clips vom Kanal @banjavrujci — Pools, Unterkünfte, Natur und Umgebung. Die Auswahl ändert sich bei jedem Besuch.",
+    "shorts": "Shorts"
+  },
+  "banners": {
+    "p1": "Tourismusportal Banja Vrujci — alle Informationen über das Thermalbad an einem Ort.",
+    "cta1": "Über das Thermalbad",
+    "p2": "Unterkunftsangebot — Villen, Apartments, Hotels, Zimmer, Privatunterkünfte.",
+    "cta2": "Unterkunft in Banja Vrujci",
+    "p3": "Immobilienangebot — Apartments, Häuser, Ferienhäuser, Grundstücke, Wohnungen, Gewerbeflächen.",
+    "cta3": "Alle Immobilien"
+  },
+  "listing": {
+    "kontakt": "Kontakt:",
+    "video": "Video",
+    "lokacija": "Standort auf der Karte",
+    "lokacijaNapomena": "Hinweis: Der angezeigte Standort ist ungefähr.",
+    "povezani": "Ähnliche Unterkünfte",
+    "dostupnost": "Verfügbarkeit",
+    "oceneIUtisci": "Bewertungen & Eindrücke",
+    "nemaOcena": "Noch keine Bewertungen — seien Sie der Erste.",
+    "ostaviOcenuPre": "Um eine Bewertung abzugeben, ",
+    "prijaviteSe": "melden Sie sich an",
+    "ostaviOcenuPost": ".",
+    "hvala": "Danke! Ihre Bewertung wartet auf die Freigabe durch den Administrator.",
+    "nemaObjekata": "In dieser Kategorie gibt es derzeit keine Einträge.",
+    "uBanji": "in Banja Vrujci",
+    "smestajNaMapi": "Unterkünfte auf der Karte",
+    "nemaObjavljenih": "Derzeit sind keine Einträge veröffentlicht.",
+    "smestajSubtitle": "Insgesamt {n} Einträge — Apartments, Villen, Zimmer, Hotels, Blockhäuser und Privatunterkünfte.",
+    "galerijaUskoro": "Die Fotos für diese Galerie werden vorbereitet und in Kürze hinzugefügt.",
+    "povezaneStranice": "Verwandte Seiten"
+  }
+}

@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { getLocale, localeHref } from "@/lib/i18n";
 export function Card({ l }: { l: any }) {
+  const locale = getLocale();
   return (
-    <Link href={`/smestaj/${l.slug}`} className="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden">
+    <Link href={localeHref(`/smestaj/${l.slug}`, locale)} className="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden">
       <div className="h-44 bg-slate-200">
         {l.image_url && <img src={l.image_url} alt={l.title} className="w-full h-full object-cover" loading="lazy" />}
       </div>

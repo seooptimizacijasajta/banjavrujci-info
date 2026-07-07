@@ -10,12 +10,16 @@ import FloatingButtons from "@/components/FloatingButtons";
 import Stars from "@/components/Stars";
 import ReviewForm from "@/components/ReviewForm";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
+import { getLocale, getDict, localeHref } from "@/lib/i18n";
 
 const CAT_TITLES: Record<string,string> = {
   apartmani:"Apartmani", vile:"Vile", sobe:"Sobe", kuce:"Kuće za odmor", bungalovi:"Brvnare i bungalovi",
   vikendice:"Vikendice", "privatni-smestaj":"Privatni smeštaj", hoteli:"Hoteli", konaci:"Konaci", "odmor-na-selu":"Odmor na selu"
 };
 const CATS = Object.keys(CAT_TITLES);
+function catTitle(cat: string, dict: any) {
+  return (dict.cats as Record<string,string>)[cat] ?? CAT_TITLES[cat] ?? cat;
+}
 
 function galleryImages(slug: string) {
   const files = (galleryManifest as Record<string, string[]>)[slug] || [];
@@ -40,6 +44,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function SmestajSlug({ params, searchParams }: { params: { slug: string }; searchParams: { rev?: string } }) {
+  const locale = getLocale();
+  const t = getDict(locale);
   const supabase = createClient();
 
   if (CATS.includes(params.slug)) {
@@ -48,9 +54,9 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
     return (
       <div className="grid lg:grid-cols-[1fr_320px] gap-8 py-6">
         <div>
-          <nav className="text-sm text-slate-500 mb-2"><Link href="/smestaj" className="hover:text-brand">Smeštaj</Link> / <span className="text-brand">{CAT_TITLES[params.slug]}</span></nav>
-          <h1 className="text-3xl font-bold mb-6">{CAT_TITLES[params.slug]} u Banji Vrujci <span className="text-slate-400 text-xl">({items?.length || 0})</span></h1>
-          {(!items || items.length===0) && <p className="text-slate-600">Trenutno nema objekata u ovoj kategoriji.</p>}
+          <nav className="text-sm text-slate-500 mb-2"><Link href={localeHref("/smestaj", locale)} className="hover:text-brand">{t.nav.smestaj}</Link> / <span className="text-brand">{catTitle(params.slug, t)}</span></nav>
+          <h1 className="text-3xl font-bold mb-6">{catTitle(params.slug, t)} {t.listing.uBanji} <span className="text-slate-400 text-xl">({items?.length || 0})</span></h1>
+          {(!items || items.length===0) && <p className="text-slate-600">{t.listing.nemaObjekata}</p>}
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">{items?.map((l:any)=> <Card key={l.id} l={l} />)}</div>
         </div>
         <Sidebar />
@@ -74,15 +80,15 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
   return (
     <div className="py-6 max-w-5xl mx-auto">
       <article className="space-y-6 min-w-0">
-        <nav className="text-sm text-slate-500"><Link href="/smestaj" className="hover:text-brand">Smeštaj</Link> / <Link href={`/smestaj/${l.category}`} className="hover:text-brand">{CAT_TITLES[l.category] || l.category}</Link></nav>
+        <nav className="text-sm text-slate-500"><Link href={localeHref("/smestaj", locale)} className="hover:text-brand">{t.nav.smestaj}</Link> / <Link href={localeHref(`/smestaj/${l.category}`, locale)} className="hover:text-brand">{catTitle(l.category, t)}</Link></nav>
         <h1 className="text-3xl font-bold">{l.title}</h1>
         {revCount > 0 && <Stars value={avg} count={revCount} />}
-        {searchParams.rev === "ok" && <p className="text-green-700 text-sm">Hvala! Vaša ocena čeka odobrenje administratora.</p>}
+        {searchParams.rev === "ok" && <p className="text-green-700 text-sm">{t.listing.hvala}</p>}
         {l.image_url && <img src={l.image_url} alt={l.title} className="w-full max-h-[440px] object-cover rounded-xl" />}
 
         {l.phone && (
           <div className="bg-brand/5 border border-brand/20 rounded-xl p-4 flex flex-wrap items-center gap-3">
-            <span className="font-semibold">Kontakt:</span>
+            <span className="font-semibold">{t.listing.kontakt}</span>
             <a href={`tel:${(l.phone||'').replace(/[^\d+]/g,'')}`} className="text-brand font-bold text-lg">{l.phone}</a>
             {wa && <a href={`viber://chat?number=%2B${wa}`} className="bg-[#7360f2] text-white rounded px-3 py-1.5 text-sm">Viber</a>}
             {wa && <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="bg-[#25D366] text-white rounded px-3 py-1.5 text-sm">WhatsApp</a>}
@@ -95,34 +101,34 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
 
         {l.video_id && (
           <section>
-            <h2 className="text-xl font-bold mb-3">Video</h2>
+            <h2 className="text-xl font-bold mb-3">{t.listing.video}</h2>
             <div className="aspect-video"><iframe className="w-full h-full rounded-xl" src={`https://www.youtube.com/embed/${l.video_id}`} title={l.title} allowFullScreen loading="lazy" /></div>
           </section>
         )}
 
         {l.latitude && l.longitude && (
           <section>
-            <h2 className="text-xl font-bold mb-3">Lokacija na mapi</h2>
+            <h2 className="text-xl font-bold mb-3">{t.listing.lokacija}</h2>
             <ListingMap markers={[{ lat: l.latitude, lng: l.longitude, title: l.title }]} zoom={15} />
-            <p className="text-xs text-slate-500 mt-1">Napomena: prikazana lokacija je okvirna.</p>
+            <p className="text-xs text-slate-500 mt-1">{t.listing.lokacijaNapomena}</p>
           </section>
         )}
 
         {related.length > 0 && (
           <section className="pt-2 border-t border-slate-100">
-            <h2 className="text-xl font-bold mb-3">Povezani smeštaj</h2>
+            <h2 className="text-xl font-bold mb-3">{t.listing.povezani}</h2>
             <div className="grid gap-5 sm:grid-cols-3">
               {related.map((r:any)=> <Card key={r.id} l={r} />)}
             </div>
           </section>
         )}
         <section className="pt-2 border-t border-slate-100">
-          <h2 className="text-xl font-bold mb-3">Dostupnost</h2>
+          <h2 className="text-xl font-bold mb-3">{t.listing.dostupnost}</h2>
           <AvailabilityCalendar booked={bookedDays} months={2} />
         </section>
 
         <section className="pt-2 border-t border-slate-100">
-          <h2 className="text-xl font-bold mb-3">Ocene i utisci</h2>
+          <h2 className="text-xl font-bold mb-3">{t.listing.oceneIUtisci}</h2>
           <div className="space-y-3 mb-4">
             {(reviews || []).map((r: any, i: number) => (
               <div key={i} className="bg-white rounded-lg p-3 shadow-sm">
@@ -130,9 +136,9 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
                 {r.comment && <p className="text-sm text-slate-700 mt-1 whitespace-pre-line">{r.comment}</p>}
               </div>
             ))}
-            {revCount === 0 && <p className="text-slate-500 text-sm">Još nema ocena — budite prvi.</p>}
+            {revCount === 0 && <p className="text-slate-500 text-sm">{t.listing.nemaOcena}</p>}
           </div>
-          {user ? <ReviewForm listingId={l.id} slug={params.slug} /> : <p className="text-sm text-slate-600">Da biste ostavili ocenu, <Link href="/login" className="text-brand underline">prijavite se</Link>.</p>}
+          {user ? <ReviewForm listingId={l.id} slug={params.slug} /> : <p className="text-sm text-slate-600">{t.listing.ostaviOcenuPre}<Link href={localeHref("/login", locale)} className="text-brand underline">{t.listing.prijaviteSe}</Link>{t.listing.ostaviOcenuPost}</p>}
         </section>
       </article>
       <FloatingButtons phone={l.phone || undefined} />

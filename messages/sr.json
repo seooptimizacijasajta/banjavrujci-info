@@ -1,0 +1,85 @@
+{
+  "nav": {
+    "pocetna": "Početna",
+    "smestaj": "Smeštaj",
+    "oBanji": "O Banji",
+    "nekretnine": "Nekretnine",
+    "galerija": "Galerija",
+    "video": "Video",
+    "blog": "Blog",
+    "info": "Info",
+    "kontakt": "Kontakt"
+  },
+  "cats": {
+    "apartmani": "Apartmani",
+    "vile": "Vile",
+    "privatni-smestaj": "Privatni smeštaj",
+    "bungalovi": "Brvnare i bungalovi",
+    "sobe": "Sobe",
+    "kuce": "Kuće",
+    "vikendice": "Vikendice",
+    "hoteli": "Hoteli"
+  },
+  "auth": {
+    "mojPanel": "Moj panel",
+    "admin": "Admin",
+    "odjava": "Odjava",
+    "prijava": "Prijava",
+    "registracija": "Registracija",
+    "dodajSmestaj": "Dodaj smeštaj"
+  },
+  "footer": {
+    "kontakt": "Kontakt",
+    "portal": "Turistički portal Banja Vrujci",
+    "smestaj": "Smeštaj",
+    "okolina": "Okolina",
+    "info": "Info",
+    "oBanji": "O Banji"
+  },
+  "common": {
+    "preporuceniSmestaj": "Preporučeni smeštaj",
+    "izdvojeniSmestaj": "Izdvojeni smeštaj",
+    "savSmestaj": "Sav smeštaj",
+    "kontakt": "Kontakt",
+    "pogledajSav": "Pogledaj sav smeštaj",
+    "menu": "Meni",
+    "byCategoryEyebrow": "Ponuda za vaš sledeći odmor",
+    "byCategoryTitle": "Smeštaj u Banji Vrujci po kategorijama",
+    "smestajUBanji": "Smeštaj u Banji Vrujci",
+    "galerijaTitle": "Galerija Banje Vrujci",
+    "galerijaSubtitle": "Fotografije po temama — bazeni, priroda, okolina, manastiri i znamenitosti.",
+    "sadrzajUPripremi": "Sadržaj se priprema i biće popunjen prilikom prebacivanja sa starog sajta.",
+    "videoGalerijaTitle": "Video galerija Banje Vrujci",
+    "videoGalerijaSubtitle": "Snimci sa kanala @banjavrujci — bazeni, smeštaj, priroda i okolina. Prikaz se menja pri svakom otvaranju.",
+    "shorts": "Shorts"
+  },
+  "banners": {
+    "p1": "Turistički portal Banja Vrujci — sve potrebne informacije o banji na jednom mestu.",
+    "cta1": "Saznajte o banji",
+    "p2": "Ponuda smeštaja — vile, apartmani, hoteli, sobe, privatni smeštaj.",
+    "cta2": "Smeštaj u Banji Vrujci",
+    "p3": "Ponuda nekretnina — apartmani, kuće, vikendice, placevi, stanovi, poslovni prostor.",
+    "cta3": "Sve nekretnine"
+  },
+  "listing": {
+    "kontakt": "Kontakt:",
+    "video": "Video",
+    "lokacija": "Lokacija na mapi",
+    "lokacijaNapomena": "Napomena: prikazana lokacija je okvirna.",
+    "povezani": "Povezani smeštaj",
+    "dostupnost": "Dostupnost",
+    "oceneIUtisci": "Ocene i utisci",
+    "nemaOcena": "Još nema ocena — budite prvi.",
+    "ostaviOcenuPre": "Da biste ostavili ocenu, ",
+    "prijaviteSe": "prijavite se",
+    "ostaviOcenuPost": ".",
+    "hvala": "Hvala! Vaša ocena čeka odobrenje administratora.",
+    "nemaObjekata": "Trenutno nema objekata u ovoj kategoriji.",
+    "uBanji": "u Banji Vrujci",
+    "smestajNaMapi": "Smeštaj na mapi",
+    "nemaObjavljenih": "Trenutno nema objavljenih objekata.",
+    "smestajSubtitle": "Ukupno {n} objekata — apartmani, vile, sobe, hoteli, bungalovi i privatni smeštaj.",
+    "galerijaUskoro": "Fotografije za ovu galeriju se uređuju i biće uskoro dodate.",
+    "povezaneStranice": "Povezane stranice"
+  }
+}

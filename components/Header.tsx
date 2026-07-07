@@ -1,17 +1,21 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { localeHref, type Locale } from "@/lib/locale-path";
 
 type Child = { label: string; href: string };
 type Item = { label: string; href: string; children?: Child[] };
+type AuthLabels = { mojPanel: string; admin: string; odjava: string; prijava: string; registracija: string; dodajSmestaj: string };
 
-export default function Header({ email, role, signOut, menu }: { email: string | null; role: string | null; signOut: () => void; menu: Item[] }) {
+export default function Header({ email, role, signOut, menu, locale, labels }: { email: string | null; role: string | null; signOut: () => void; menu: Item[]; locale: Locale; labels: AuthLabels }) {
   const [open, setOpen] = useState(false);
   const staff = role === "admin" || role === "superadmin";
+  const lh = (href: string) => localeHref(href, locale);
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="mx-auto max-w-[1380px] px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="font-extrabold text-xl text-brand shrink-0">Banja Vrujci</Link>
+        <Link href={lh("/")} className="font-extrabold text-xl text-brand shrink-0">Banja Vrujci</Link>
         <nav className="hidden lg:flex items-center gap-1 text-sm font-medium text-slate-700">
           {menu.map((it) => it.children && it.children.length ? (
             <div key={it.label} className="relative group">
@@ -27,17 +31,18 @@ export default function Header({ email, role, signOut, menu }: { email: string |
         <div className="hidden lg:flex items-center gap-3 text-sm shrink-0">
           {email ? (
             <>
-              <Link href="/nalog" className="hover:text-brand">Moj panel</Link>
-              {staff && <Link href="/admin" className="font-semibold text-brand">Admin</Link>}
-              <form action={signOut}><button className="hover:text-brand">Odjava</button></form>
+              <Link href={lh("/nalog")} className="hover:text-brand">{labels.mojPanel}</Link>
+              {staff && <Link href={lh("/admin")} className="font-semibold text-brand">{labels.admin}</Link>}
+              <form action={signOut}><button className="hover:text-brand">{labels.odjava}</button></form>
             </>
           ) : (
             <>
-              <Link href="/login" className="hover:text-brand">Prijava</Link>
-              <Link href="/register" className="hover:text-brand">Registracija</Link>
+              <Link href={lh("/login")} className="hover:text-brand">{labels.prijava}</Link>
+              <Link href={lh("/register")} className="hover:text-brand">{labels.registracija}</Link>
             </>
           )}
-          <Link href="/nalog/smestaj/novi" className="bg-brand text-white rounded-full px-4 py-2 font-semibold hover:bg-brand-dark whitespace-nowrap">Dodaj smeštaj</Link>
+          <LanguageSwitcher current={locale} />
+          <Link href={lh("/nalog/smestaj/novi")} className="bg-brand text-white rounded-full px-4 py-2 font-semibold hover:bg-brand-dark whitespace-nowrap">{labels.dodajSmestaj}</Link>
         </div>
         <button className="lg:hidden p-2" onClick={() => setOpen(!open)} aria-label="Meni">
           <span className="block w-6 h-0.5 bg-slate-700 mb-1.5"></span>
@@ -56,17 +61,18 @@ export default function Header({ email, role, signOut, menu }: { email: string |
           <hr className="my-2" />
           {email ? (
             <>
-              <Link href="/nalog" className="block py-1.5" onClick={() => setOpen(false)}>Moj panel</Link>
-              {staff && <Link href="/admin" className="block py-1.5 text-brand font-semibold" onClick={() => setOpen(false)}>Admin</Link>}
-              <form action={signOut}><button className="py-1.5">Odjava</button></form>
+              <Link href={lh("/nalog")} className="block py-1.5" onClick={() => setOpen(false)}>{labels.mojPanel}</Link>
+              {staff && <Link href={lh("/admin")} className="block py-1.5 text-brand font-semibold" onClick={() => setOpen(false)}>{labels.admin}</Link>}
+              <form action={signOut}><button className="py-1.5">{labels.odjava}</button></form>
             </>
           ) : (
             <>
-              <Link href="/login" className="block py-1.5" onClick={() => setOpen(false)}>Prijava</Link>
-              <Link href="/register" className="block py-1.5" onClick={() => setOpen(false)}>Registracija</Link>
+              <Link href={lh("/login")} className="block py-1.5" onClick={() => setOpen(false)}>{labels.prijava}</Link>
+              <Link href={lh("/register")} className="block py-1.5" onClick={() => setOpen(false)}>{labels.registracija}</Link>
             </>
           )}
-          <Link href="/nalog/smestaj/novi" className="block bg-brand text-white rounded px-4 py-2 font-semibold text-center mt-2" onClick={() => setOpen(false)}>Dodaj smeštaj</Link>
+          <div className="py-2"><LanguageSwitcher current={locale} /></div>
+          <Link href={lh("/nalog/smestaj/novi")} className="block bg-brand text-white rounded px-4 py-2 font-semibold text-center mt-2" onClick={() => setOpen(false)}>{labels.dodajSmestaj}</Link>
         </div>
       )}
     </header>
