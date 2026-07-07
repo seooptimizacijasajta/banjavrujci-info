@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import Gallery from "@/components/Gallery";
 import fotoManifest from "@/lib/foto-manifest.json";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
+import { localizeRow, localizeRows } from "@/lib/translations";
 
 function short(t: string) { return t.replace(/^Banja Vrujci\s*/i, "").replace(/\s*[-–,].*$/, ""); }
 
@@ -20,24 +21,29 @@ const GAL_FILTER: Record<string, RegExp> = {
 };
 
 export async function pageMeta(slug: string) {
+  const locale = getLocale();
   const supabase = createClient();
-  const { data } = await supabase.from("pages").select("title,meta_title,meta_description").eq("slug", slug).eq("status","published").single();
+  const { data } = await supabase.from("pages").select("id,title,meta_title,meta_description").eq("slug", slug).eq("status","published").single();
   if (!data) return { title: "Stranica" };
-  return { title: data.meta_title || data.title, description: data.meta_description || undefined };
+  const d: any = await localizeRow("page", data as any, locale);
+  return { title: d.meta_title || d.title, description: d.meta_description || undefined };
 }
 
 export default async function PageView({ slug }: { slug: string }) {
   const locale = getLocale();
   const t = getDict(locale);
   const supabase = createClient();
-  const { data: page } = await supabase.from("pages").select("*").eq("slug", slug).eq("status","published").single();
-  if (!page) notFound();
-  const [{ data: kids }, { data: faqs }, { data: parent }, { data: siblings }] = await Promise.all([
-    supabase.from("pages").select("slug,title,excerpt,image_url").eq("parent_slug", slug).eq("status","published").order("sort_order"),
+  const { data: pageRaw } = await supabase.from("pages").select("*").eq("slug", slug).eq("status","published").single();
+  if (!pageRaw) notFound();
+  const page: any = await localizeRow("page", pageRaw as any, locale);
+  const [{ data: kidsRaw }, { data: faqs }, { data: parent }, { data: siblingsRaw }] = await Promise.all([
+    supabase.from("pages").select("id,slug,title,excerpt,image_url").eq("parent_slug", slug).eq("status","published").order("sort_order"),
     supabase.from("faqs").select("question,answer,sort_order").eq("entity_type","page").eq("entity_id", page.id).order("sort_order"),
     page.parent_slug ? supabase.from("pages").select("slug,title").eq("slug", page.parent_slug).single() : Promise.resolve({ data: null } as any),
-    page.parent_slug ? supabase.from("pages").select("slug,title").eq("parent_slug", page.parent_slug).eq("status","published").neq("slug", slug).order("sort_order").limit(10) : Promise.resolve({ data: [] } as any)
+    page.parent_slug ? supabase.from("pages").select("id,slug,title").eq("parent_slug", page.parent_slug).eq("status","published").neq("slug", slug).order("sort_order").limit(10) : Promise.resolve({ data: [] } as any)
   ]);
+  const kids = await localizeRows("page", kidsRaw as any[], locale);
+  const siblings = await localizeRows("page", siblingsRaw as any[], locale);
   const faqItems = (faqs || []).map((f: any) => ({ question: f.question, answer: f.answer }));
 
   const isGal = page.section === "galerija";

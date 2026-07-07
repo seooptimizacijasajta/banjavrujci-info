@@ -2,6 +2,7 @@ import Link from "next/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
+import { localizeRows } from "@/lib/translations";
 
 export default async function Sidebar() {
   noStore();
@@ -9,8 +10,8 @@ export default async function Sidebar() {
   const t = getDict(locale);
   const supabase = createClient();
   const { data: feat } = await supabase.from("listings")
-    .select("slug,title,category,image_url").eq("status","approved").eq("promo_tier","featured");
-  const shuffled = (feat || []).sort(() => Math.random() - 0.5).slice(0, 9);
+    .select("id,slug,title,category,image_url").eq("status","approved").eq("promo_tier","featured");
+  const shuffled = await localizeRows("listing", (feat || []).sort(() => Math.random() - 0.5).slice(0, 9), locale);
   return (
     <aside className="space-y-6">
       <div className="bg-white rounded-xl shadow-sm p-4">

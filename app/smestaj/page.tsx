@@ -4,6 +4,7 @@ import { Card } from "@/components/Card";
 import ListingMap from "@/components/ListingMap";
 import Sidebar from "@/components/Sidebar";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
+import { localizeRows } from "@/lib/translations";
 export const metadata = {
   title: "Smeštaj u Banji Vrujci — apartmani, vile, sobe, hoteli",
   description: "Ponuda smeštaja u Banji Vrujci: apartmani, vile, sobe, kuće, bungalovi, hoteli i privatni smeštaj."
@@ -18,9 +19,10 @@ export default async function Smestaj() {
   const t = getDict(locale);
   const catTitle = (c: string) => (t.cats as Record<string,string>)[c] ?? CAT_TITLES[c] ?? c;
   const supabase = createClient();
-  const { data: listings } = await supabase
+  const { data: listingsRaw } = await supabase
     .from("listings").select("id,title,slug,category,excerpt,image_url,price_text,latitude,longitude")
     .eq("status","approved");
+  const listings = await localizeRows("listing", listingsRaw || [], locale);
   const byCat: Record<string, any[]> = {};
   (listings||[]).forEach((l:any)=>{ (byCat[l.category] ||= []).push(l); });
   const cats = ORDER.filter(c=>byCat[c]?.length);

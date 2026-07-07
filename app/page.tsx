@@ -7,6 +7,7 @@ import Izdvojeni2 from "@/components/Izdvojeni2";
 import CategoryRow from "@/components/CategoryRow";
 import { createClient } from "@/lib/supabase/server";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
+import { localizeRows } from "@/lib/translations";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +28,7 @@ export default async function Home() {
     .from("listings")
     .select("id,title,slug,category,excerpt,price_text,promo_tier,image_url")
     .eq("status", "approved");
-  const all = listings || [];
+  const all = await localizeRows("listing", listings || [], locale);
   const featured = shuffle(all.filter((l: any) => l.promo_tier === "premium"));
   const highlighted = shuffle(all.filter((l: any) => l.promo_tier === "featured"));
   const rest = shuffle(all.filter((l: any) => l.promo_tier === "none")).slice(0, 12);

@@ -11,6 +11,7 @@ import Stars from "@/components/Stars";
 import ReviewForm from "@/components/ReviewForm";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
+import { localizeRow, localizeRows } from "@/lib/translations";
 
 const CAT_TITLES: Record<string,string> = {
   apartmani:"Apartmani", vile:"Vile", sobe:"Sobe", kuce:"Kuće za odmor", bungalovi:"Brvnare i bungalovi",
@@ -33,14 +34,17 @@ function waNumber(phone: string) {
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const locale = getLocale();
+  const dict = getDict(locale);
   if (CATS.includes(params.slug)) {
-    const t = CAT_TITLES[params.slug];
-    return { title: `${t} u Banji Vrujci`, description: `${t} u Banji Vrujci — ponuda smeštaja, cene i kontakt.` };
+    const ct = catTitle(params.slug, dict);
+    return { title: `${ct} ${dict.listing.uBanji}`, description: `${ct} ${dict.listing.uBanji} — ${dict.nav.smestaj}.` };
   }
   const supabase = createClient();
-  const { data } = await supabase.from("listings").select("title,meta_title,meta_description").eq("slug", params.slug).eq("status","approved").single();
+  const { data } = await supabase.from("listings").select("id,title,meta_title,meta_description").eq("slug", params.slug).eq("status","approved").single();
   if (!data) return { title: "Smeštaj" };
-  return { title: data.meta_title || data.title, description: data.meta_description || undefined };
+  const d: any = await localizeRow("listing", data as any, locale);
+  return { title: d.meta_title || d.title, description: d.meta_description || undefined };
 }
 
 export default async function SmestajSlug({ params, searchParams }: { params: { slug: string }; searchParams: { rev?: string } }) {
@@ -49,8 +53,9 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
   const supabase = createClient();
 
   if (CATS.includes(params.slug)) {
-    const { data: items } = await supabase.from("listings")
+    const { data: itemsRaw } = await supabase.from("listings")
       .select("id,title,slug,category,excerpt,image_url,price_text").eq("status","approved").eq("category", params.slug);
+    const items = await localizeRows("listing", itemsRaw as any[], locale);
     return (
       <div className="grid lg:grid-cols-[1fr_320px] gap-8 py-6">
         <div>
@@ -64,8 +69,9 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
     );
   }
 
-  const { data: l } = await supabase.from("listings").select("*").eq("slug", params.slug).eq("status", "approved").single();
-  if (!l) notFound();
+  const { data: lraw } = await supabase.from("listings").select("*").eq("slug", params.slug).eq("status", "approved").single();
+  if (!lraw) notFound();
+  const l: any = await localizeRow("listing", lraw as any, locale);
   const { data: { user } } = await supabase.auth.getUser();
   const { data: reviews } = await supabase.from("reviews").select("rating,comment,created_at").eq("listing_id", l.id).eq("status", "approved").order("created_at", { ascending: false });
   const revCount = reviews?.length || 0;
@@ -74,7 +80,7 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
   const { data: av } = await supabase.from("listing_availability").select("day").eq("listing_id", l.id).eq("is_available", false).gte("day", todayStr);
   const bookedDays = (av || []).map((a: any) => a.day);
   const { data: relRaw } = await supabase.from("listings").select("id,title,slug,category,excerpt,image_url,price_text").eq("status","approved").eq("category", l.category).neq("slug", params.slug).limit(10);
-  const related = (relRaw||[]).sort(()=>Math.random()-0.5).slice(0,3);
+  const related = await localizeRows("listing", (relRaw||[]).sort(()=>Math.random()-0.5).slice(0,3), locale);
   const gallery = galleryImages(params.slug);
   const wa = waNumber(l.phone || "");
   return (
