@@ -1,4 +1,5 @@
 import { signIn } from "../actions/auth";
+import OAuthButtons from "@/components/OAuthButtons";
 export const metadata = { title: "Prijava" };
 export default function Login({ searchParams }: { searchParams: { err?: string; msg?: string } }) {
   return (
@@ -11,6 +12,7 @@ export default function Login({ searchParams }: { searchParams: { err?: string; 
         <input name="password" type="password" required placeholder="Lozinka" className="w-full border rounded px-3 py-2" />
         <button className="w-full bg-brand text-white rounded py-2 font-semibold">Prijavi se</button>
       </form>
+      <OAuthButtons />
       <p className="text-sm mt-4">Nemaš nalog? <a href="/register" className="text-brand underline">Registruj se</a></p>
     </div>
   );

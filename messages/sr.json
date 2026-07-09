@@ -7,6 +7,7 @@
     "galerija": "Galerija",
     "video": "Video",
     "blog": "Blog",
+    "manifestacije": "Manifestacije",
     "info": "Info",
     "kontakt": "Kontakt"
   },
@@ -53,7 +54,18 @@
     "sadrzajUPripremi": "Sadržaj se priprema i biće popunjen prilikom prebacivanja sa starog sajta.",
     "videoGalerijaTitle": "Video galerija Banje Vrujci",
     "videoGalerijaSubtitle": "Snimci sa kanala @banjavrujci — bazeni, smeštaj, priroda i okolina. Prikaz se menja pri svakom otvaranju.",
-    "shorts": "Shorts"
+    "shorts": "Shorts",
+    "blogPodnaslov": "Članci, vodiči i priče o Banji Vrujci, okolini i banjskom turizmu u Srbiji.",
+    "objavljeno": "Objavljeno",
+    "blogPrazno": "Nema objavljenih članaka.",
+    "sviClanci": "Svi članci",
+    "prociraj": "Pročitaj više",
+    "manifestacijeSubtitle": "Kalendar događaja i manifestacija u Banji Vrujci i okolini — Rajac, Divčibare, Mionica, Valjevo.",
+    "predstojeci": "Predstojeći događaji",
+    "protekli": "Prethodni događaji",
+    "manifestacijePrazno": "Trenutno nema najavljenih događaja.",
+    "kada": "Kada",
+    "gde": "Gde"
   },
   "banners": {
     "p1": "Turistički portal Banja Vrujci — sve potrebne informacije o banji na jednom mestu.",

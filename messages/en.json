@@ -7,6 +7,7 @@
     "galerija": "Gallery",
     "video": "Video",
     "blog": "Blog",
+    "manifestacije": "Events",
     "info": "Info",
     "kontakt": "Contact"
   },
@@ -53,7 +54,18 @@
     "sadrzajUPripremi": "This content is being prepared and will be filled in during the migration from the old site.",
     "videoGalerijaTitle": "Banja Vrujci video gallery",
     "videoGalerijaSubtitle": "Clips from the @banjavrujci channel — pools, accommodation, nature and surroundings. The selection changes on each visit.",
-    "shorts": "Shorts"
+    "shorts": "Shorts",
+    "blogPodnaslov": "Articles, guides and stories about Banja Vrujci, its surroundings and spa tourism in Serbia.",
+    "objavljeno": "Published",
+    "blogPrazno": "No published articles yet.",
+    "sviClanci": "All articles",
+    "prociraj": "Read more",
+    "manifestacijeSubtitle": "Calendar of events and festivals in Banja Vrujci and the surrounding area — Rajac, Divčibare, Mionica, Valjevo.",
+    "predstojeci": "Upcoming events",
+    "protekli": "Past events",
+    "manifestacijePrazno": "No announced events at the moment.",
+    "kada": "When",
+    "gde": "Where"
   },
   "banners": {
     "p1": "Banja Vrujci tourism portal — all the information about the spa in one place.",

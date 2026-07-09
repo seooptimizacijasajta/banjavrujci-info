@@ -57,6 +57,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     { label: t.nav.galerija, href: lh("/galerija"), children: kids("galerija") },
     { label: t.nav.video, href: lh("/video") },
     { label: t.nav.blog, href: lh("/blog") },
+    { label: t.nav.manifestacije, href: lh("/manifestacije") },
     { label: t.nav.info, href: lh("/info"), children: kids("info") },
     { label: t.nav.kontakt, href: lh("/kontakt") }
   ];

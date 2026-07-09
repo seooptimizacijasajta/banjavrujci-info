@@ -1,7 +1,25 @@
 "use server";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { passwordProblems } from "@/lib/password";
+
+function siteOrigin() {
+  const h = headers();
+  const host = h.get("x-forwarded-host") || h.get("host") || "";
+  const proto = h.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https");
+  return `${proto}://${host}`;
+}
+
+export async function signInWithProvider(provider: "google" | "facebook") {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: { redirectTo: `${siteOrigin()}/auth/callback?next=/nalog` }
+  });
+  if (error) redirect("/login?err=" + encodeURIComponent(error.message));
+  if (data?.url) redirect(data.url);
+}
 
 export async function signUp(formData: FormData) {
   const email = String(formData.get("email") || "").trim();

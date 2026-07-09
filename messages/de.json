@@ -7,6 +7,7 @@
     "galerija": "Galerie",
     "video": "Video",
     "blog": "Blog",
+    "manifestacije": "Veranstaltungen",
     "info": "Info",
     "kontakt": "Kontakt"
   },
@@ -53,7 +54,18 @@
     "sadrzajUPripremi": "Dieser Inhalt wird vorbereitet und bei der Migration von der alten Website ergänzt.",
     "videoGalerijaTitle": "Videogalerie Banja Vrujci",
     "videoGalerijaSubtitle": "Clips vom Kanal @banjavrujci — Pools, Unterkünfte, Natur und Umgebung. Die Auswahl ändert sich bei jedem Besuch.",
-    "shorts": "Shorts"
+    "shorts": "Shorts",
+    "blogPodnaslov": "Artikel, Ratgeber und Geschichten über Banja Vrujci, die Umgebung und den Thermaltourismus in Serbien.",
+    "objavljeno": "Veröffentlicht",
+    "blogPrazno": "Noch keine veröffentlichten Artikel.",
+    "sviClanci": "Alle Artikel",
+    "prociraj": "Weiterlesen",
+    "manifestacijeSubtitle": "Kalender der Veranstaltungen und Feste in Banja Vrujci und Umgebung — Rajac, Divčibare, Mionica, Valjevo.",
+    "predstojeci": "Kommende Veranstaltungen",
+    "protekli": "Vergangene Veranstaltungen",
+    "manifestacijePrazno": "Derzeit keine angekündigten Veranstaltungen.",
+    "kada": "Wann",
+    "gde": "Wo"
   },
   "banners": {
     "p1": "Tourismusportal Banja Vrujci — alle Informationen über das Thermalbad an einem Ort.",

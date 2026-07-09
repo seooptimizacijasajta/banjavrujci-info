@@ -1,5 +1,6 @@
 import { signUp } from "../actions/auth";
 import { passwordRuleText } from "@/lib/password";
+import OAuthButtons from "@/components/OAuthButtons";
 export const metadata = { title: "Registracija" };
 export default function Register({ searchParams }: { searchParams: { err?: string } }) {
   return (
@@ -13,6 +14,7 @@ export default function Register({ searchParams }: { searchParams: { err?: strin
         <p className="text-xs text-slate-500">{passwordRuleText}</p>
         <button className="w-full bg-brand text-white rounded py-2 font-semibold">Napravi nalog</button>
       </form>
+      <OAuthButtons />
       <p className="text-sm mt-4">Imaš nalog? <a href="/login" className="text-brand underline">Prijavi se</a></p>
     </div>
   );
