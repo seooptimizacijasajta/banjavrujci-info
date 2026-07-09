@@ -12,6 +12,7 @@ import ReviewForm from "@/components/ReviewForm";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
 import { localizeRow, localizeRows } from "@/lib/translations";
+import { SITE_URL, localeUrl } from "@/lib/seo";
 
 const CAT_TITLES: Record<string,string> = {
   apartmani:"Apartmani", vile:"Vile", sobe:"Sobe", kuce:"Kuće za odmor", bungalovi:"Brvnare i bungalovi",
@@ -83,6 +84,32 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
   const related = await localizeRows("listing", (relRaw||[]).sort(()=>Math.random()-0.5).slice(0,3), locale);
   const gallery = galleryImages(params.slug);
   const wa = waNumber(l.phone || "");
+  const canonical = localeUrl(`/smestaj/${params.slug}`, locale);
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LodgingBusiness",
+        name: l.title,
+        description: (l.excerpt || l.description || "").slice(0, 300),
+        ...(l.image_url ? { image: SITE_URL + l.image_url } : {}),
+        ...(l.phone ? { telephone: l.phone } : {}),
+        url: canonical,
+        ...(l.price_text ? { priceRange: l.price_text } : {}),
+        address: { "@type": "PostalAddress", ...(l.address ? { streetAddress: l.address } : {}), addressLocality: "Banja Vrujci", addressCountry: "RS" },
+        ...(l.latitude && l.longitude ? { geo: { "@type": "GeoCoordinates", latitude: l.latitude, longitude: l.longitude } } : {})
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: t.nav.pocetna, item: localeUrl("/", locale) },
+          { "@type": "ListItem", position: 2, name: t.nav.smestaj, item: localeUrl("/smestaj", locale) },
+          { "@type": "ListItem", position: 3, name: catTitle(l.category, t), item: localeUrl(`/smestaj/${l.category}`, locale) },
+          { "@type": "ListItem", position: 4, name: l.title, item: canonical }
+        ]
+      }
+    ]
+  };
   return (
     <div className="py-6 max-w-5xl mx-auto">
       <article className="space-y-6 min-w-0">
@@ -147,6 +174,7 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
           {user ? <ReviewForm listingId={l.id} slug={params.slug} /> : <p className="text-sm text-slate-600">{t.listing.ostaviOcenuPre}<Link href={localeHref("/login", locale)} className="text-brand underline">{t.listing.prijaviteSe}</Link>{t.listing.ostaviOcenuPost}</p>}
         </section>
       </article>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <FloatingButtons phone={l.phone || undefined} />
     </div>
   );

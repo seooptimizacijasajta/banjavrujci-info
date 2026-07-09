@@ -31,7 +31,7 @@ export default async function Home() {
   const all = await localizeRows("listing", listings || [], locale);
   const featured = shuffle(all.filter((l: any) => l.promo_tier === "premium"));
   const highlighted = shuffle(all.filter((l: any) => l.promo_tier === "featured"));
-  const rest = shuffle(all.filter((l: any) => l.promo_tier === "none")).slice(0, 12);
+  const rest = shuffle(all.filter((l: any) => l.promo_tier === "none"));
   return (
     <div className="space-y-10">
       <Hero count={5} />

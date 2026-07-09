@@ -10,9 +10,13 @@ export async function middleware(request: NextRequest) {
   const seg = pathname.split("/")[1];
   const locale = LOCALES.includes(seg) ? seg : "sr";
 
-  // Forward the detected locale to server components via a request header.
+  // The locale-independent (Serbian) path, used for hreflang alternates.
+  const basePath = locale === "sr" ? pathname : pathname.slice(locale.length + 1) || "/";
+
+  // Forward the detected locale + base path to server components via request headers.
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-locale", locale);
+  requestHeaders.set("x-pathname", basePath);
 
   let response: NextResponse;
   if (locale === "sr") {
@@ -20,7 +24,7 @@ export async function middleware(request: NextRequest) {
   } else {
     // Strip the /en or /de prefix and serve the underlying route internally.
     const url = request.nextUrl.clone();
-    url.pathname = pathname.slice(locale.length + 1) || "/";
+    url.pathname = basePath;
     response = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
   }
 

@@ -1,21 +1,28 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "./actions/auth";
 import Header from "@/components/Header";
 import Izdvojeni from "@/components/Izdvojeni";
 import HideOnHome from "@/components/HideOnHome";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
+import { SITE_URL, localeUrl, hreflangAlternates } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: {
-    default: "Banja Vrujci — smeštaj, apartmani, vile i okolina",
-    template: "%s | Banja Vrujci"
-  },
-  description:
-    "Turistički portal Banje Vrujci: smeštaj (apartmani, vile, sobe, hoteli), termalni bazeni, okolina, manifestacije i vodič za odmor.",
-  metadataBase: new URL("https://www.banjavrujci.info")
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = getLocale();
+  const t = getDict(locale);
+  const basePath = headers().get("x-pathname") || "/";
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: t.common.siteTitle, template: "%s | Banja Vrujci" },
+    description: t.common.siteDescription,
+    alternates: {
+      canonical: localeUrl(basePath, locale),
+      languages: hreflangAlternates(basePath)
+    }
+  };
+}
 
 function shortLabel(title: string) {
   let t = title.replace(/^Banja Vrujci\s*/i, "").replace(/\s*[-–,].*$/, "").trim();
@@ -56,6 +63,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={locale}>
       <body className="overflow-x-hidden">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            { "@type": "WebSite", "@id": `${SITE_URL}/#website`, "url": SITE_URL, "name": "Banja Vrujci", "inLanguage": locale },
+            { "@type": "Organization", "@id": `${SITE_URL}/#organization`, "name": t.footer.portal, "url": SITE_URL, "email": "info@banjavrujci.info", "telephone": "+381644598778" }
+          ]
+        }) }} />
         <Header email={user?.email ?? null} role={role} signOut={signOut} menu={menu} locale={locale} labels={t.auth} />
         <main className="mx-auto max-w-[1380px] px-4 pb-6">{children}</main>
         <HideOnHome><div className="mx-auto max-w-[1380px] px-4 mt-8"><Izdvojeni title={t.common.preporuceniSmestaj} /></div></HideOnHome>
