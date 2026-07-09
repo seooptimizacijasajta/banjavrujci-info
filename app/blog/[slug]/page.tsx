@@ -1,18 +1,20 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import Sidebar from "@/components/Sidebar";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
-import { SITE_URL, localeUrl } from "@/lib/seo";
+import { SITE_URL, localeUrl, buildMeta } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 const LOCALE_TAG: Record<string, string> = { sr: "sr-RS", en: "en-GB", de: "de-DE" };
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const locale = getLocale();
   const supabase = createClient();
-  const { data } = await supabase.from("posts").select("title,excerpt").eq("slug", params.slug).eq("status", "published").single();
+  const { data } = await supabase.from("posts").select("title,excerpt,cover_url").eq("slug", params.slug).eq("status", "published").single();
   if (!data) return { title: "Blog — Banja Vrujci" };
-  return { title: `${data.title} — Blog`, description: data.excerpt || undefined };
+  return buildMeta({ title: `${data.title} — Blog`, description: data.excerpt || undefined, basePath: `/blog/${params.slug}`, locale, image: data.cover_url, type: "article" });
 }
 
 export default async function BlogPost({ params }: { params: { slug: string } }) {
@@ -34,7 +36,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
           <h1 className="text-3xl font-bold mb-1">{post.title}</h1>
           <div className="text-sm text-slate-400">{t.common.objavljeno}: {fmt(post.published_at)}</div>
         </header>
-        {post.cover_url && <img src={post.cover_url} alt={post.title} className="w-full max-h-[420px] object-cover rounded-xl" />}
+        {post.cover_url && <Image src={post.cover_url} alt={post.title} width={1200} height={630} priority className="w-full max-h-[420px] object-cover rounded-xl" />}
         <div
           className="max-w-none leading-relaxed text-slate-700 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-5 [&_h3]:mb-2 [&_h4]:font-semibold [&_h4]:mt-4 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4 [&_li]:mb-1 [&_a]:text-brand [&_a]:underline [&_img]:rounded-lg [&_img]:my-4 [&_img]:max-w-full [&_img]:h-auto [&_blockquote]:border-l-4 [&_blockquote]:border-brand/40 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-slate-600 [&_blockquote]:my-4 [&_iframe]:w-full [&_iframe]:aspect-video [&_iframe]:rounded-lg [&_iframe]:my-4 [&_strong]:font-semibold"
           dangerouslySetInnerHTML={{ __html: post.content || "" }}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import Sidebar from "@/components/Sidebar";
 import fotoManifest from "@/lib/foto-manifest.json";
@@ -27,7 +28,7 @@ export default async function Galerija() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {withImgs.map((k: any) => (
             <Link key={k.slug} href={localeHref(`/${k.slug}`, locale)} className="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden">
-              <div className="h-40 bg-slate-200"><img src={cover(k.slug)!} alt={k.title} className="w-full h-full object-cover" loading="lazy" /></div>
+              <div className="relative h-40 bg-slate-200"><Image src={cover(k.slug)!} alt={k.title} fill className="object-cover" sizes="(max-width:640px) 100vw, 33vw" /></div>
               <div className="p-4"><h3 className="font-semibold">{k.title.replace(/^Banja Vrujci\s*/i,"").replace(/\s*[-–,].*$/,"")}</h3></div>
             </Link>
           ))}

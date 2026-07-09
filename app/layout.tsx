@@ -8,20 +8,35 @@ import Izdvojeni from "@/components/Izdvojeni";
 import HideOnHome from "@/components/HideOnHome";
 import FooterBanners from "@/components/FooterBanners";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
-import { SITE_URL, localeUrl, hreflangAlternates } from "@/lib/seo";
+import { SITE_URL, localeUrl, hreflangAlternates, absUrl, DEFAULT_OG_IMAGE } from "@/lib/seo";
+
+const OG_LOCALE: Record<string, string> = { sr: "sr_RS", en: "en_US", de: "de_DE" };
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = getLocale();
   const t = getDict(locale);
   const basePath = headers().get("x-pathname") || "/";
+  const url = localeUrl(basePath, locale);
+  const img = absUrl(DEFAULT_OG_IMAGE);
   return {
     metadataBase: new URL(SITE_URL),
     title: { default: t.common.siteTitle, template: "%s | Banja Vrujci" },
     description: t.common.siteDescription,
     alternates: {
-      canonical: localeUrl(basePath, locale),
+      canonical: url,
       languages: hreflangAlternates(basePath)
-    }
+    },
+    openGraph: {
+      title: t.common.siteTitle,
+      description: t.common.siteDescription,
+      url,
+      siteName: "Banja Vrujci",
+      type: "website",
+      locale: OG_LOCALE[locale] || "sr_RS",
+      alternateLocale: (["sr", "en", "de"] as const).filter((l) => l !== locale).map((l) => OG_LOCALE[l]),
+      images: [{ url: img, width: 1200, height: 630, alt: t.common.siteTitle }]
+    },
+    twitter: { card: "summary_large_image", title: t.common.siteTitle, description: t.common.siteDescription, images: [img] }
   };
 }
 

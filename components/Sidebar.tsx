@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { unstable_noStore as noStore } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
@@ -19,8 +20,8 @@ export default async function Sidebar() {
         <div className="space-y-3">
           {shuffled.map((l: any) => (
             <Link key={l.slug} href={localeHref(`/smestaj/${l.slug}`, locale)} className="flex gap-3 items-center group">
-              <div className="w-16 h-14 rounded bg-slate-200 overflow-hidden shrink-0">
-                {l.image_url && <img src={l.image_url} alt={l.title} className="w-full h-full object-cover" loading="lazy" />}
+              <div className="relative w-16 h-14 rounded bg-slate-200 overflow-hidden shrink-0">
+                {l.image_url && <Image src={l.image_url} alt={l.title} fill className="object-cover" sizes="64px" />}
               </div>
               <div className="text-sm">
                 <div className="font-semibold group-hover:text-brand leading-tight">{l.title}</div>

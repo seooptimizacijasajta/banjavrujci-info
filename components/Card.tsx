@@ -1,11 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getLocale, localeHref } from "@/lib/i18n";
 export function Card({ l }: { l: any }) {
   const locale = getLocale();
   return (
     <Link href={localeHref(`/smestaj/${l.slug}`, locale)} className="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden">
-      <div className="h-44 bg-slate-200">
-        {l.image_url && <img src={l.image_url} alt={l.title} className="w-full h-full object-cover" loading="lazy" />}
+      <div className="relative h-44 bg-slate-200">
+        {l.image_url && <Image src={l.image_url} alt={l.title} fill className="object-cover" sizes="(max-width:640px) 100vw, (max-width:1280px) 50vw, 33vw" />}
       </div>
       <div className="p-4">
         <div className="text-xs uppercase text-brand font-semibold">{l.category}</div>

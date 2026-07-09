@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Faq from "@/components/Faq";
@@ -8,7 +9,7 @@ import FriendsLinks from "@/components/FriendsLinks";
 import fotoManifest from "@/lib/foto-manifest.json";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
 import { localizeRow, localizeRows } from "@/lib/translations";
-import { localeUrl } from "@/lib/seo";
+import { localeUrl, buildMeta } from "@/lib/seo";
 import { autoLink } from "@/lib/autolink";
 
 function short(t: string) { return t.replace(/^Banja Vrujci\s*/i, "").replace(/\s*[-–,].*$/, ""); }
@@ -26,10 +27,10 @@ const GAL_FILTER: Record<string, RegExp> = {
 export async function pageMeta(slug: string) {
   const locale = getLocale();
   const supabase = createClient();
-  const { data } = await supabase.from("pages").select("id,title,meta_title,meta_description").eq("slug", slug).eq("status","published").single();
+  const { data } = await supabase.from("pages").select("id,title,excerpt,meta_title,meta_description,image_url").eq("slug", slug).eq("status","published").single();
   if (!data) return { title: "Stranica" };
   const d: any = await localizeRow("page", data as any, locale);
-  return { title: d.meta_title || d.title, description: d.meta_description || undefined };
+  return buildMeta({ title: d.meta_title || d.title, description: d.meta_description || d.excerpt || undefined, basePath: `/${slug}`, locale, image: d.image_url });
 }
 
 export default async function PageView({ slug }: { slug: string }) {
@@ -68,7 +69,7 @@ export default async function PageView({ slug }: { slug: string }) {
           {parent && <> / <Link href={localeHref(`/${(parent as any).slug}`, locale)} className="hover:text-brand">{short((parent as any).title)}</Link></>}
         </nav>
         <h1 className="text-3xl font-bold">{page.title}</h1>
-        {showHeader && <img src={page.image_url} alt={page.title} className="w-full max-h-[420px] object-cover rounded-xl" />}
+        {showHeader && <Image src={page.image_url} alt={page.title} width={1200} height={630} priority className="w-full max-h-[420px] object-cover rounded-xl" />}
         {slug === "prijatelji-portala"
           ? <FriendsLinks />
           : (cleanContent && <div className="whitespace-pre-line leading-relaxed text-slate-700">{autoLink(cleanContent, locale, slug)}</div>)}
@@ -77,7 +78,7 @@ export default async function PageView({ slug }: { slug: string }) {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 pt-2">
             {kids.map((k: any) => (
               <Link key={k.slug} href={localeHref(`/${k.slug}`, locale)} className="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden">
-                {k.image_url && <div className="h-36 bg-slate-200"><img src={k.image_url} alt={k.title} className="w-full h-full object-cover" loading="lazy" /></div>}
+                {k.image_url && <div className="relative h-36 bg-slate-200"><Image src={k.image_url} alt={k.title} fill className="object-cover" sizes="(max-width:640px) 100vw, 33vw" /></div>}
                 <div className="p-4"><h3 className="font-semibold">{short(k.title)}</h3>{k.excerpt && <p className="text-sm text-slate-600 line-clamp-2">{k.excerpt}</p>}</div>
               </Link>
             ))}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import galleryManifest from "@/lib/gallery-manifest.json";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
@@ -13,7 +14,7 @@ import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
 import { localizeRow, localizeRows } from "@/lib/translations";
 import { autoLink } from "@/lib/autolink";
-import { SITE_URL, localeUrl } from "@/lib/seo";
+import { SITE_URL, localeUrl, buildMeta } from "@/lib/seo";
 
 const CAT_TITLES: Record<string,string> = {
   apartmani:"Apartmani", vile:"Vile", sobe:"Sobe", kuce:"Kuće za odmor", bungalovi:"Brvnare i bungalovi",
@@ -40,13 +41,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const dict = getDict(locale);
   if (CATS.includes(params.slug)) {
     const ct = catTitle(params.slug, dict);
-    return { title: `${ct} ${dict.listing.uBanji}`, description: `${ct} ${dict.listing.uBanji} — ${dict.nav.smestaj}.` };
+    return buildMeta({ title: `${ct} ${dict.listing.uBanji}`, description: `${ct} ${dict.listing.uBanji} — ${dict.nav.smestaj}.`, basePath: `/smestaj/${params.slug}`, locale });
   }
   const supabase = createClient();
-  const { data } = await supabase.from("listings").select("id,title,meta_title,meta_description").eq("slug", params.slug).eq("status","approved").single();
+  const { data } = await supabase.from("listings").select("id,title,excerpt,meta_title,meta_description,image_url").eq("slug", params.slug).eq("status","approved").single();
   if (!data) return { title: "Smeštaj" };
   const d: any = await localizeRow("listing", data as any, locale);
-  return { title: d.meta_title || d.title, description: d.meta_description || undefined };
+  return buildMeta({ title: d.meta_title || d.title, description: d.meta_description || d.excerpt || undefined, basePath: `/smestaj/${params.slug}`, locale, image: d.image_url, type: "article" });
 }
 
 export default async function SmestajSlug({ params, searchParams }: { params: { slug: string }; searchParams: { rev?: string } }) {
@@ -118,7 +119,7 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
         <h1 className="text-3xl font-bold">{l.title}</h1>
         {revCount > 0 && <Stars value={avg} count={revCount} />}
         {searchParams.rev === "ok" && <p className="text-green-700 text-sm">{t.listing.hvala}</p>}
-        {l.image_url && <img src={l.image_url} alt={l.title} className="w-full max-h-[440px] object-cover rounded-xl" />}
+        {l.image_url && <Image src={l.image_url} alt={l.title} width={1200} height={630} priority className="w-full max-h-[440px] object-cover rounded-xl" />}
 
         {l.phone && (
           <div className="bg-brand/5 border border-brand/20 rounded-xl p-4 flex flex-wrap items-center gap-3">
