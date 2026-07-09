@@ -12,6 +12,7 @@ export default function Login({ searchParams }: { searchParams: { err?: string; 
         <input name="password" type="password" required placeholder="Lozinka" className="w-full border rounded px-3 py-2" />
         <button className="w-full bg-brand text-white rounded py-2 font-semibold">Prijavi se</button>
       </form>
+      <p className="text-sm mt-2 text-right"><a href="/zaboravljena-lozinka" className="text-slate-500 hover:text-brand underline">Zaboravljena lozinka?</a></p>
       <OAuthButtons />
       <p className="text-sm mt-4">Nemaš nalog? <a href="/register" className="text-brand underline">Registruj se</a></p>
     </div>

@@ -35,7 +35,12 @@
     "smestaj": "Unterkunft",
     "okolina": "Umgebung",
     "info": "Info",
-    "oBanji": "Über das Thermalbad"
+    "oBanji": "Über das Thermalbad",
+    "otkrijte": "Entdecken",
+    "tagline": "Ihr Wegweiser durch Banja Vrujci — Unterkünfte, Bäder, Natur, Veranstaltungen und alle Informationen an einem Ort.",
+    "trust": "Das Tourismusportal Banja Vrujci — verlässliche, geprüfte Informationen über den Kurort, Unterkünfte und die Umgebung.",
+    "telefon": "Telefon",
+    "svaPrava": "Alle Rechte vorbehalten."
   },
   "common": {
     "preporuceniSmestaj": "Empfohlene Unterkünfte",

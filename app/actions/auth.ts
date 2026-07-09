@@ -45,6 +45,27 @@ export async function signIn(formData: FormData) {
   redirect("/nalog");
 }
 
+export async function requestPasswordReset(formData: FormData) {
+  const email = String(formData.get("email") || "").trim();
+  if (!email) redirect("/zaboravljena-lozinka?err=" + encodeURIComponent("Unesite e-mail adresu."));
+  const supabase = createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${siteOrigin()}/auth/callback?next=/auth/reset`
+  });
+  if (error) redirect("/zaboravljena-lozinka?err=" + encodeURIComponent(error.message));
+  redirect("/login?msg=" + encodeURIComponent("Ako nalog postoji, poslali smo vam link za resetovanje lozinke na e-mail."));
+}
+
+export async function updatePassword(formData: FormData) {
+  const password = String(formData.get("password") || "");
+  const problems = passwordProblems(password);
+  if (problems.length) redirect("/auth/reset?err=" + encodeURIComponent("Lozinka mora imati: " + problems.join(", ")));
+  const supabase = createClient();
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) redirect("/auth/reset?err=" + encodeURIComponent(error.message));
+  redirect("/login?msg=" + encodeURIComponent("Lozinka je uspešno promenjena. Možete se prijaviti."));
+}
+
 export async function signOut() {
   const supabase = createClient();
   await supabase.auth.signOut();
