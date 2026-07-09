@@ -12,6 +12,7 @@ import ReviewForm from "@/components/ReviewForm";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
 import { localizeRow, localizeRows } from "@/lib/translations";
+import { autoLink } from "@/lib/autolink";
 import { SITE_URL, localeUrl } from "@/lib/seo";
 
 const CAT_TITLES: Record<string,string> = {
@@ -128,7 +129,7 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
           </div>
         )}
 
-        {l.description && <div className="whitespace-pre-line leading-relaxed text-slate-700">{l.description}</div>}
+        {l.description && <div className="whitespace-pre-line leading-relaxed text-slate-700">{autoLink(l.description, locale, params.slug)}</div>}
 
         {gallery.length > 0 && <Gallery images={gallery} title={l.title} />}
 

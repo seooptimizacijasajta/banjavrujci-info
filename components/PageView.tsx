@@ -9,6 +9,7 @@ import fotoManifest from "@/lib/foto-manifest.json";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
 import { localizeRow, localizeRows } from "@/lib/translations";
 import { localeUrl } from "@/lib/seo";
+import { autoLink } from "@/lib/autolink";
 
 function short(t: string) { return t.replace(/^Banja Vrujci\s*/i, "").replace(/\s*[-–,].*$/, ""); }
 
@@ -70,7 +71,7 @@ export default async function PageView({ slug }: { slug: string }) {
         {showHeader && <img src={page.image_url} alt={page.title} className="w-full max-h-[420px] object-cover rounded-xl" />}
         {slug === "prijatelji-portala"
           ? <FriendsLinks />
-          : (cleanContent && <div className="whitespace-pre-line leading-relaxed text-slate-700">{cleanContent}</div>)}
+          : (cleanContent && <div className="whitespace-pre-line leading-relaxed text-slate-700">{autoLink(cleanContent, locale, slug)}</div>)}
 
         {(kids && kids.length > 0) && (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 pt-2">
