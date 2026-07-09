@@ -6,6 +6,7 @@ import { signOut } from "./actions/auth";
 import Header from "@/components/Header";
 import Izdvojeni from "@/components/Izdvojeni";
 import HideOnHome from "@/components/HideOnHome";
+import FooterBanners from "@/components/FooterBanners";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
 import { SITE_URL, localeUrl, hreflangAlternates } from "@/lib/seo";
 
@@ -89,6 +90,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <div><h4 className="text-white font-semibold mb-2">{t.footer.okolina}</h4><p><a href={lh("/banja-vrujci")} className="hover:text-white">{t.footer.oBanji}</a> · <a href={lh("/nekretnine")} className="hover:text-white">{t.nav.nekretnine}</a> · <a href={lh("/galerija")} className="hover:text-white">{t.nav.galerija}</a></p></div>
             <div><h4 className="text-white font-semibold mb-2">{t.footer.info}</h4><p><a href={lh("/info")} className="hover:text-white">{t.nav.info}</a> · <a href={lh("/blog")} className="hover:text-white">{t.nav.blog}</a> · <a href={lh("/kontakt")} className="hover:text-white">{t.nav.kontakt}</a></p></div>
           </div>
+          <FooterBanners />
           <div className="border-t border-slate-700 py-3 text-center text-xs">© 2026 Banja Vrujci · info@banjavrujci.info · +381 64 459 8778</div>
         </footer>
       </body>

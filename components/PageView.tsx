@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Faq from "@/components/Faq";
 import Sidebar from "@/components/Sidebar";
 import Gallery from "@/components/Gallery";
+import FriendsLinks from "@/components/FriendsLinks";
 import fotoManifest from "@/lib/foto-manifest.json";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
 import { localizeRow, localizeRows } from "@/lib/translations";
@@ -67,7 +68,9 @@ export default async function PageView({ slug }: { slug: string }) {
         </nav>
         <h1 className="text-3xl font-bold">{page.title}</h1>
         {showHeader && <img src={page.image_url} alt={page.title} className="w-full max-h-[420px] object-cover rounded-xl" />}
-        {cleanContent && <div className="whitespace-pre-line leading-relaxed text-slate-700">{cleanContent}</div>}
+        {slug === "prijatelji-portala"
+          ? <FriendsLinks />
+          : (cleanContent && <div className="whitespace-pre-line leading-relaxed text-slate-700">{cleanContent}</div>)}
 
         {(kids && kids.length > 0) && (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 pt-2">
