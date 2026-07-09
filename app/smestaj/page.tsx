@@ -30,6 +30,7 @@ export default async function Smestaj() {
   return (
     <div className="grid lg:grid-cols-[1fr_320px] gap-8 py-6">
       <div className="min-w-0">
+        <nav className="text-sm text-slate-500 mb-2"><Link href={localeHref("/", locale)} className="hover:text-brand">{t.nav.pocetna}</Link> / <span className="text-brand">{t.nav.smestaj}</span></nav>
         <h1 className="text-3xl font-bold mb-2">{t.common.smestajUBanji}</h1>
         <p className="text-slate-600 mb-6">{t.listing.smestajSubtitle.replace("{n}", String(listings?.length || 0))}</p>
         {markers.length>0 && (<div className="mb-8"><h2 className="text-xl font-bold mb-3">{t.listing.smestajNaMapi}</h2><ListingMap markers={markers} zoom={14} height="420px" /></div>)}
