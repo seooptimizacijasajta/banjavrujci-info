@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Gallery({ images, title }: { images: string[]; title?: string }) {
   const [idx, setIdx] = useState<number | null>(null);
@@ -12,9 +13,9 @@ export default function Gallery({ images, title }: { images: string[]; title?: s
       <h2 className="text-xl font-bold mb-3">Galerija</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
         {images.map((src, i) => (
-          <button key={i} onClick={() => setIdx(i)} className="block h-40 rounded-lg overflow-hidden bg-slate-200">
-            <img src={src} alt={`${title || "Slika"} ${i + 1}`} className="w-full h-full object-cover hover:scale-105 transition" loading="lazy"
-              onError={(e) => { const b = (e.currentTarget.closest("button")) as HTMLElement | null; if (b) b.style.display = "none"; }} />
+          <button key={i} onClick={() => setIdx(i)} className="relative block h-40 rounded-lg overflow-hidden bg-slate-200">
+            <Image src={src} alt={`${title || "Slika"} ${i + 1}`} fill sizes="(max-width:768px) 50vw, 33vw" className="object-cover hover:scale-105 transition"
+              onError={(e) => { const b = ((e.currentTarget as HTMLElement).closest("button")) as HTMLElement | null; if (b) b.style.display = "none"; }} />
           </button>
         ))}
       </div>
