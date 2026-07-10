@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Sidebar from "@/components/Sidebar";
 import ContactForm from "@/components/ContactForm";
 import { pageMeta } from "@/components/PageView";
@@ -32,6 +33,7 @@ export default function Kontakt({ searchParams }: { searchParams: { sent?: strin
       <div className="min-w-0 space-y-5">
         <nav className="text-sm text-slate-500"><Link href={localeHref("/", locale)} className="hover:text-brand">{t.nav.pocetna}</Link> / <span className="text-brand">{t.nav.kontakt}</span></nav>
         <h1 className="text-3xl font-bold">{t.nav.kontakt}</h1>
+        <Image src="/galerija/banja-vrujci-fotografije/34.jpg" alt="Banja Vrujci" width={1200} height={630} priority className="w-full max-h-[320px] object-cover rounded-xl" />
 
         <p className="text-slate-700 leading-relaxed">
           {L(
