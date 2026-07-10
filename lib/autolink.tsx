@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { localeHref } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale-path";
 
 type Entry = { base: string; path: string; rx: RegExp };
 
@@ -24,7 +25,7 @@ function proper(): Entry[] {
   ];
 }
 
-function generic(locale: string): Entry[] {
+function generic(locale: Locale): Entry[] {
   if (locale === "en") {
     return [
       E("privatni-smestaj", "/smestaj/privatni-smestaj", "private accommodation"),
@@ -76,7 +77,7 @@ function generic(locale: string): Entry[] {
 }
 
 // Pretvara običan tekst u čvorove sa internim linkovima (prva pojava svakog pojma, bez self-linka).
-export function autoLink(text: string, locale: string, currentSlug?: string): React.ReactNode[] {
+export function autoLink(text: string, locale: Locale, currentSlug?: string): React.ReactNode[] {
   const list = [...proper(), ...generic(locale)].filter((e) => e.base !== currentSlug);
   let nodes: React.ReactNode[] = [text];
   let k = 0;
