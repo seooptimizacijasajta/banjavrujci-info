@@ -38,6 +38,9 @@ function waNumber(phone: string) {
 
 function WaViber({ num }: { num: string }) {
   if (!num) return null;
+  // Viber/WhatsApp samo za mobilne (srpski fiksni 381 + 1/2/3… nema; mobilni je 3816…). Strani brojevi = pretpostavi mobilni.
+  const isMobile = !num.startsWith("381") || num.startsWith("3816");
+  if (!isMobile) return null;
   return (
     <>
       <a href={`viber://chat?number=%2B${num}`} className="inline-flex items-center gap-1.5 bg-[#7360f2] text-white rounded-lg px-4 py-2 text-sm font-medium hover:opacity-90 transition">
@@ -140,7 +143,7 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
         {searchParams.rev === "ok" && <p className="text-green-700 text-sm">{t.listing.hvala}</p>}
         {l.image_url && <Image src={l.image_url} alt={l.title} width={1200} height={630} priority className="w-full max-h-[440px] object-cover rounded-xl" />}
 
-        {contacts.length > 0 && (
+        {(contacts.length > 0 || l.email) && (
           <div className="bg-brand/5 border border-brand/20 rounded-xl p-4 space-y-3">
             <span className="font-semibold">{t.listing.kontakt}</span>
             {contacts.map((c, i) => (
@@ -149,6 +152,7 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
                 <WaViber num={c.num} />
               </div>
             ))}
+            {l.email && <a href={`mailto:${l.email}`} className="inline-flex items-center gap-1.5 text-brand hover:underline"><span aria-hidden="true">✉</span>{l.email}</a>}
           </div>
         )}
 
