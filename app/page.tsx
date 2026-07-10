@@ -26,7 +26,7 @@ export default async function Home() {
   const supabase = createClient();
   const { data: listings } = await supabase
     .from("listings")
-    .select("id,title,slug,category,excerpt,price_text,promo_tier,image_url")
+    .select("id,title,slug,category,excerpt,price_text,promo_tier,image_url,phone,viber")
     .eq("status", "approved");
   const all = await localizeRows("listing", listings || [], locale);
   const featured = shuffle(all.filter((l: any) => l.promo_tier === "premium"));

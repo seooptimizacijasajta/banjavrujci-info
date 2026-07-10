@@ -74,7 +74,7 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
 
   if (CATS.includes(params.slug)) {
     const { data: itemsRaw } = await supabase.from("listings")
-      .select("id,title,slug,category,excerpt,image_url,price_text").eq("status","approved").eq("category", params.slug);
+      .select("id,title,slug,category,excerpt,image_url,price_text,phone,viber").eq("status","approved").eq("category", params.slug);
     const items = await localizeRows("listing", itemsRaw as any[], locale);
     return (
       <div className="grid lg:grid-cols-[1fr_320px] gap-8 py-6">
@@ -99,7 +99,7 @@ export default async function SmestajSlug({ params, searchParams }: { params: { 
   const todayStr = new Date().toISOString().slice(0, 10);
   const { data: av } = await supabase.from("listing_availability").select("day").eq("listing_id", l.id).eq("is_available", false).gte("day", todayStr);
   const bookedDays = (av || []).map((a: any) => a.day);
-  const { data: relRaw } = await supabase.from("listings").select("id,title,slug,category,excerpt,image_url,price_text").eq("status","approved").eq("category", l.category).neq("slug", params.slug).limit(10);
+  const { data: relRaw } = await supabase.from("listings").select("id,title,slug,category,excerpt,image_url,price_text,phone,viber").eq("status","approved").eq("category", l.category).neq("slug", params.slug).limit(10);
   const related = await localizeRows("listing", (relRaw||[]).sort(()=>Math.random()-0.5).slice(0,3), locale);
   const gallery = galleryImages(params.slug);
   const wa = waNumber(l.phone || "");

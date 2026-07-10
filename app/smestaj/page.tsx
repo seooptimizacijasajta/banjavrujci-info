@@ -20,7 +20,7 @@ export default async function Smestaj() {
   const catTitle = (c: string) => (t.cats as Record<string,string>)[c] ?? CAT_TITLES[c] ?? c;
   const supabase = createClient();
   const { data: listingsRaw } = await supabase
-    .from("listings").select("id,title,slug,category,excerpt,image_url,price_text,latitude,longitude")
+    .from("listings").select("id,title,slug,category,excerpt,image_url,price_text,latitude,longitude,phone,viber")
     .eq("status","approved");
   const listings = await localizeRows("listing", listingsRaw || [], locale);
   const byCat: Record<string, any[]> = {};
