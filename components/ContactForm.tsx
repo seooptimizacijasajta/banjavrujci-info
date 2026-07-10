@@ -13,7 +13,7 @@ export default function ContactForm({ locale, sent, greska }: { locale: Locale; 
     : "";
 
   return (
-    <section id="forma" className="max-w-2xl mx-auto mt-10 bg-white rounded-xl shadow p-6">
+    <section id="forma" className="mt-4 bg-white rounded-xl shadow p-6">
       <h2 className="text-2xl font-bold mb-4">{L("Pošaljite nam poruku", "Send us a message", "Senden Sie uns eine Nachricht")}</h2>
       {sent && <p className="mb-4 rounded bg-green-50 border border-green-200 text-green-800 px-4 py-3 text-sm">{L("Hvala! Vaša poruka je poslata. Javićemo vam se uskoro.", "Thank you! Your message has been sent. We'll get back to you soon.", "Danke! Ihre Nachricht wurde gesendet. Wir melden uns bald.")}</p>}
       {errMsg && <p className="mb-4 rounded bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">{errMsg}</p>}
