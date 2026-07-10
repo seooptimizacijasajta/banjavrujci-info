@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Izdvojeni from "@/components/Izdvojeni";
 import HideOnHome from "@/components/HideOnHome";
 import FooterBanners from "@/components/FooterBanners";
+import FooterSocial from "@/components/FooterSocial";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
 import { SITE_URL, localeUrl, hreflangAlternates, absUrl, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
@@ -136,7 +137,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </ul>
             </div>
           </div>
-          <div className="mx-auto max-w-[1380px] px-4 pb-6"><p className="text-slate-500 text-xs border-t border-slate-800 pt-5 max-w-3xl">{t.footer.trust}</p></div>
+          <div className="mx-auto max-w-[1380px] px-4 pb-6 border-t border-slate-800 pt-5">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <p className="text-slate-500 text-xs max-w-2xl">{t.footer.trust}</p>
+              <FooterSocial />
+            </div>
+          </div>
           <FooterBanners />
           <div className="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
             © {new Date().getFullYear()} Banja Vrujci · {t.footer.portal} · {t.footer.svaPrava}
