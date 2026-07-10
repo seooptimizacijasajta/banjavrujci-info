@@ -9,6 +9,20 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: '**' }
     ]
+  },
+  async redirects() {
+    return [
+      // Stari poddomen bloga -> novi blog (fira kad blog.banjavrujci.info bude uperen na Vercel).
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'blog.banjavrujci.info' }],
+        destination: 'https://banjavrujci.info/blog/:path*',
+        permanent: true
+      },
+      // Stara /english sekcija -> novi /en prefiks.
+      { source: '/english', destination: '/en', permanent: true },
+      { source: '/english/:path*', destination: '/en/:path*', permanent: true }
+    ];
   }
 };
 export default nextConfig;
