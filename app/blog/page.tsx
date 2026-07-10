@@ -17,7 +17,7 @@ export default async function BlogList() {
   const t = getDict(locale);
   const supabase = createClient();
   const { data: posts } = await supabase
-    .from("posts").select("slug,title,excerpt,published_at")
+    .from("posts").select("slug,title,excerpt,published_at,cover_url")
     .eq("status", "published").order("published_at", { ascending: false });
   const fmt = (d: string | null) => d ? new Date(d).toLocaleDateString(LOCALE_TAG[locale] || "sr-RS", { year: "numeric", month: "long", day: "numeric" }) : "";
 
@@ -30,11 +30,16 @@ export default async function BlogList() {
         {(!posts || posts.length === 0) && <p className="text-slate-600">{t.common.blogPrazno}</p>}
         <div className="grid gap-5 sm:grid-cols-2">
           {(posts || []).map((p: any) => (
-            <Link key={p.slug} href={localeHref(`/blog/${p.slug}`, locale)} className="block bg-white rounded-xl shadow hover:shadow-md transition p-5">
-              <div className="text-xs text-slate-400 mb-1">{fmt(p.published_at)}</div>
-              <h2 className="font-semibold text-lg mb-2 text-slate-800">{p.title}</h2>
-              {p.excerpt && <p className="text-sm text-slate-600 line-clamp-3">{p.excerpt}</p>}
-              <span className="inline-block mt-3 text-sm text-brand font-medium">{t.common.prociraj} →</span>
+            <Link key={p.slug} href={localeHref(`/blog/${p.slug}`, locale)} className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden">
+              <div className="h-44 bg-slate-200">
+                {p.cover_url && <img src={p.cover_url} alt={p.title} loading="lazy" className="w-full h-full object-cover" />}
+              </div>
+              <div className="p-5">
+                <div className="text-xs text-slate-400 mb-1">{fmt(p.published_at)}</div>
+                <h2 className="font-semibold text-lg mb-2 text-slate-800">{p.title}</h2>
+                {p.excerpt && <p className="text-sm text-slate-600 line-clamp-3">{p.excerpt}</p>}
+                <span className="inline-block mt-3 text-sm text-brand font-medium">{t.common.prociraj} →</span>
+              </div>
             </Link>
           ))}
         </div>
