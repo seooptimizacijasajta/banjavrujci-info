@@ -30,7 +30,6 @@ export default async function Home() {
     .eq("status", "approved");
   const all = await localizeRows("listing", listings || [], locale);
   const featured = shuffle(all.filter((l: any) => l.promo_tier === "premium"));
-  const highlighted = shuffle(all.filter((l: any) => l.promo_tier === "featured"));
   const rest = shuffle(all.filter((l: any) => l.promo_tier === "none"));
   return (
     <div className="space-y-10">
@@ -40,7 +39,6 @@ export default async function Home() {
       <Izdvojeni2 />
       <CategoryRow />
       {featured.length > 0 && <ListSection title={t.common.preporuceniSmestaj} items={featured} />}
-      {highlighted.length > 0 && <ListSection title={t.common.izdvojeniSmestaj} items={highlighted} />}
       {rest.length > 0 && <ListSection title={t.common.smestajUBanji} items={rest} />}
       <div className="text-center"><Link href={localeHref("/smestaj", locale)} className="inline-block bg-brand text-white rounded px-6 py-3 font-semibold hover:bg-brand-dark">{t.common.pogledajSav}</Link></div>
     </div>
