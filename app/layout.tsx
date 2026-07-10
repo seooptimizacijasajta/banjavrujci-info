@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { signOut } from "./actions/auth";
 import Header from "@/components/Header";
 import Izdvojeni from "@/components/Izdvojeni";
-import HideOnHome from "@/components/HideOnHome";
+import HideWhereSidebar from "@/components/HideWhereSidebar";
 import FooterBanners from "@/components/FooterBanners";
 import FooterSocial from "@/components/FooterSocial";
 import { getLocale, getDict, localeHref } from "@/lib/i18n";
@@ -90,7 +90,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         }) }} />
         <Header email={user?.email ?? null} role={role} signOut={signOut} menu={menu} locale={locale} labels={t.auth} />
         <main className="mx-auto max-w-[1380px] px-4 pb-6">{children}</main>
-        <HideOnHome><div className="mx-auto max-w-[1380px] px-4 mt-8"><Izdvojeni title={t.common.preporuceniSmestaj} /></div></HideOnHome>
+        <HideWhereSidebar><div className="mx-auto max-w-[1380px] px-4 mt-8"><Izdvojeni title={t.common.preporuceniSmestaj} /></div></HideWhereSidebar>
         <footer className="mt-16 bg-slate-900 text-slate-300 text-sm">
           <div className="h-1 bg-brand" />
           <div className="mx-auto max-w-[1380px] px-4 py-10 grid gap-8 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
