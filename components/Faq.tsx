@@ -3,12 +3,12 @@ import { useState } from "react";
 
 type QA = { question: string; answer: string };
 
-export default function Faq({ items }: { items: QA[] }) {
+export default function Faq({ items, title = "Često postavljana pitanja" }: { items: QA[]; title?: string }) {
   const [open, setOpen] = useState<number | null>(null);
   if (!items?.length) return null;
   return (
     <section className="pt-4">
-      <h2 className="text-2xl font-bold mb-4">Često postavljana pitanja</h2>
+      <h2 className="text-2xl font-bold mb-4">{title}</h2>
       <div className="divide-y divide-slate-200 border border-slate-200 rounded-xl overflow-hidden bg-white">
         {items.map((it, i) => (
           <div key={i}>

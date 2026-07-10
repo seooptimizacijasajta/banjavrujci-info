@@ -87,7 +87,7 @@ export default async function PageView({ slug }: { slug: string }) {
 
         {isGal && (galImgs.length > 0 ? <Gallery images={galImgs} title={short(page.title)} /> : <p className="text-slate-500 bg-slate-50 border border-slate-200 rounded-xl p-4">{t.listing.galerijaUskoro}</p>)}
 
-        <Faq items={faqItems} />
+        <Faq items={faqItems} title={t.common.faq} />
         {faqItems.length > 0 && (
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
             "@context":"https://schema.org","@type":"FAQPage",
