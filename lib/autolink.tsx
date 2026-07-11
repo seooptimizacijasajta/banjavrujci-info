@@ -76,6 +76,11 @@ function generic(locale: Locale): Entry[] {
   ];
 }
 
+// Spoljašnji linkovi: prva pojava datog teksta postaje <a> koji vodi na drugi sajt (novi tab).
+const EXTERNAL: { href: string; rx: RegExp }[] = [
+  { href: "https://mapa.in.rs", rx: new RegExp(`(?<![\\p{L}\\-/])mapa\\.in\\.rs(?![\\p{L}])`, "iu") }
+];
+
 // Pretvara običan tekst u čvorove sa internim linkovima (prva pojava svakog pojma, bez self-linka).
 export function autoLink(text: string, locale: Locale, currentSlug?: string): React.ReactNode[] {
   const list = [...proper(), ...generic(locale)].filter((e) => e.base !== currentSlug);
@@ -93,6 +98,23 @@ export function autoLink(text: string, locale: Locale, currentSlug?: string): Re
       const after = node.slice(m.index + hit.length);
       const link = (
         <Link key={`al${k++}`} href={localeHref(e.path, locale)} className="text-brand hover:underline">{hit}</Link>
+      );
+      return [before, link, after].filter((x) => x !== "");
+    });
+  }
+  // spoljašnji linkovi
+  for (const ex of EXTERNAL) {
+    let done = false;
+    nodes = nodes.flatMap((node): React.ReactNode[] => {
+      if (done || typeof node !== "string") return [node];
+      const m = ex.rx.exec(node);
+      if (!m) return [node];
+      done = true;
+      const before = node.slice(0, m.index);
+      const hit = m[0];
+      const after = node.slice(m.index + hit.length);
+      const link = (
+        <a key={`ex${k++}`} href={ex.href} target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">{hit}</a>
       );
       return [before, link, after].filter((x) => x !== "");
     });
