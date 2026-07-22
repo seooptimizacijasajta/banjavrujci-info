@@ -3,9 +3,7 @@ import { getLocale, localeHref } from "@/lib/i18n";
 
 const ITEMS = [
   { src: "/izdvojeni2/Vila_Iva_Banja_Vrujci.jpg", href: "/smestaj/vila-iva", alt: "Vila Iva Banja Vrujci" },
-  { src: "/izdvojeni2/Vila_Mir_Banja_Vrujci.jpg", href: "/smestaj/apartman-lux", alt: "Vila Mir Banja Vrujci" },
-  { src: "/izdvojeni2/Vila_Ana_Banja_Vrujci.jpg", href: "/smestaj/vila-ana", alt: "Vila Ana Banja Vrujci" },
-  { src: "/izdvojeni2/Banja_Vrujci_Apartmani_Bella.jpg", href: "/smestaj/apartmani-bella", alt: "Apartmani Bella Banja Vrujci" }
+  { src: "/izdvojeni2/Vila_Ana_Banja_Vrujci.jpg", href: "/smestaj/vila-ana", alt: "Vila Ana Banja Vrujci" }
 ];
 
 export default function Izdvojeni2() {
@@ -13,7 +11,7 @@ export default function Izdvojeni2() {
   return (
     <section>
       <h2 className="text-2xl font-bold mb-4 text-slate-800 text-center">Banja Vrujci Smeštaj Top Ponuda</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-3 max-w-xl mx-auto">
         {ITEMS.map((it) => (
           <Link key={it.alt} href={localeHref(it.href, locale)}
             className="block rounded-lg overflow-hidden shadow-sm hover:shadow-md transition ring-1 ring-slate-200">
