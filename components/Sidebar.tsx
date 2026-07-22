@@ -33,7 +33,17 @@ export default async function Sidebar() {
         <Link href={localeHref("/smestaj", locale)} className="block mt-3 text-sm text-brand font-semibold">{t.common.savSmestaj} →</Link>
       </div>
       <Link href={localeHref("/kontakt", locale)} className="block bg-brand text-white rounded-xl p-4 text-center font-semibold hover:bg-brand-dark">{t.common.kontakt}</Link>
-      <div className="text-[11px] text-slate-400 leading-relaxed">SEO optimizacija sajta banjavrujci.info · smeštaj u Banji Vrujci · apartmani u Banji Vrujci · Banja Vrujci</div>
+      <div className="text-[11px] text-slate-400 leading-relaxed">
+        <a href="https://www.optimizacija-sajta.com/" target="_blank" rel="noopener noreferrer" className="hover:text-brand hover:underline">SEO optimizacija sajta</a>
+        {" "}
+        <a href="https://www.banjavrujci.info/" target="_blank" rel="noopener noreferrer" className="hover:text-brand hover:underline">banjavrujci.info</a>
+        {" · "}
+        <a href="https://www.banja-vrujci.net/" target="_blank" rel="noopener noreferrer" className="hover:text-brand hover:underline">smeštaj u Banji Vrujci</a>
+        {" · "}
+        <a href="https://www.banja-vrujci.org/" target="_blank" rel="noopener noreferrer" className="hover:text-brand hover:underline">apartmani u Banji Vrujci</a>
+        {" · "}
+        <a href="https://www.banja-vrujci.co.rs/" target="_blank" rel="noopener noreferrer" className="hover:text-brand hover:underline">Banja Vrujci</a>
+      </div>
     </aside>
   );
 }
