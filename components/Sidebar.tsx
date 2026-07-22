@@ -36,7 +36,7 @@ export default async function Sidebar() {
       <div className="text-[11px] text-slate-400 leading-relaxed">
         <a href="https://www.optimizacija-sajta.com/" target="_blank" rel="noopener noreferrer" className="hover:text-brand hover:underline">SEO optimizacija sajta</a>
         {" "}
-        <a href="https://www.banjavrujci.info/" target="_blank" rel="noopener noreferrer" className="hover:text-brand hover:underline">banjavrujci.info</a>
+        <a href="https://www.banjavrujci.eu/" target="_blank" rel="noopener noreferrer" className="hover:text-brand hover:underline">banjavrujci.eu</a>
         {" · "}
         <a href="https://www.banja-vrujci.net/" target="_blank" rel="noopener noreferrer" className="hover:text-brand hover:underline">smeštaj u Banji Vrujci</a>
         {" · "}
